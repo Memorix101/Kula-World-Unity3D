@@ -12,6 +12,9 @@ public class EditorManager : MonoBehaviour {
     public GameObject Startline;
     public GameObject Finish;
 
+    string pathIO = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "CuboEd\\Unity");
+    string dirIO = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "CuboEd\\Unity");
+
 	void Start () {
 	
 	}
@@ -22,9 +25,15 @@ public class EditorManager : MonoBehaviour {
 
     public void LoadLevel()
     {
+
+        if (Directory.Exists(pathIO))
+        {
+            //Exists
+
         string[] data;
 
-        FileStream fileStream = File.OpenRead("F:\\Freak Mind Games\\Projects 2014\\CubeoEd\\Assets\\Resources\\test.mlvl");
+        FileStream fileStream = File.OpenRead(pathIO + "\\test.mlvl");
+
         byte[] bytes = new byte[fileStream.Length];
 
         fileStream.Read(bytes, 0, bytes.Length);
@@ -57,11 +66,33 @@ public class EditorManager : MonoBehaviour {
             }
         }
 
-
             Debug.Log("loaded");
+        }
+        else
+        {
+            Debug.LogError("Directory is not existing");
+        }
+
     }
 
     public void SaveLevel()
+    {
+        if (Directory.Exists(pathIO))
+        {
+            //Exists
+            saveFile();
+        Debug.Log("saved");
+        }
+        else
+        {
+            //Needs to be created
+            Directory.CreateDirectory(dirIO);
+
+            saveFile();
+        }
+    }
+
+    void saveFile()
     {
         StringBuilder saveBuilder = new StringBuilder();
 
@@ -71,7 +102,7 @@ public class EditorManager : MonoBehaviour {
 
         saveBuilder.Append("mlvl\n");
 
-        foreach(GameObject cube in cubes)
+        foreach (GameObject cube in cubes)
         {
             saveBuilder.Append(string.Format("[Cube, {0}, {1}, {2}]\n", cube.transform.position.x, cube.transform.position.y, cube.transform.position.z));
         }
@@ -79,11 +110,9 @@ public class EditorManager : MonoBehaviour {
         saveBuilder.Append(string.Format("[Start, {0}, {1}, {2}]\n", startpoint.transform.position.x, startpoint.transform.position.y, startpoint.transform.position.z));
         saveBuilder.Append(string.Format("[Finish, {0}, {1}, {2}]\n", finishpoint.transform.position.x, finishpoint.transform.position.y, finishpoint.transform.position.z));
 
-        using(BinaryWriter writer = new BinaryWriter(File.Open("F:\\Freak Mind Games\\Projects 2014\\CubeoEd\\Assets\\Resources\\test.mlvl", FileMode.Create)))
+        using (BinaryWriter writer = new BinaryWriter(File.Open(pathIO + "\\test.mlvl", FileMode.Create)))
         {
-           writer.Write(saveBuilder.ToString()); 
+            writer.Write(saveBuilder.ToString());
         }
-
-        Debug.Log("saved");
     }
 }

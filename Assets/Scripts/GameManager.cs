@@ -58,7 +58,7 @@ public class GameManager : MonoBehaviour {
 
     void InputStuff()
     {
-        if (Input.GetKeyDown(KeyCode.Joystick1Button6))
+		if (Input.GetKeyDown(KeyCode.Joystick1Button6) || Input.GetKeyDown(KeyCode.F1))
         {
             Edit = !Edit;
         }

@@ -12,6 +12,7 @@ public class CameraED : MonoBehaviour {
     Quaternion endpos;
     float tarY = 0;
 
+	private Vector3 mouseOrigin;
 
     public enum CamPos 
     {
@@ -67,21 +68,23 @@ public class CameraED : MonoBehaviour {
     void Follow()
     {
  
-        if(Input.GetKeyDown(KeyCode.Joystick1Button4) && camTurn == CamTurn.idle)
+		if(Input.GetKeyDown(KeyCode.Joystick1Button4) && camTurn == CamTurn.idle || Input.GetKeyDown(KeyCode.D) && camTurn == CamTurn.idle)
         {
             CamPosNxt();
             camTurn = CamTurn.right;
             tarY += 90f;
         }
 
-        if (Input.GetKeyDown(KeyCode.Joystick1Button5) && camTurn == CamTurn.idle)
+		if (Input.GetKeyDown(KeyCode.Joystick1Button5) && camTurn == CamTurn.idle || Input.GetKeyDown(KeyCode.A) && camTurn == CamTurn.idle)
         {
             CamPosBck();
             camTurn = CamTurn.left;
             tarY -= 90f;
         }
 
-        transform.position = new Vector3(-Mathf.Sin(Mathf.Deg2Rad * transform.eulerAngles.y) * 5 + Player.transform.position.x, Player.transform.position.y + 4, Player.transform.position.z - 5 * Mathf.Cos(Mathf.Deg2Rad * transform.eulerAngles.y));
+        transform.position = new Vector3(-Mathf.Sin(Mathf.Deg2Rad * transform.eulerAngles.y) * 5 + 
+		                                 Player.transform.position.x, Player.transform.position.y + 4, 
+		                                 Player.transform.position.z - 5 * Mathf.Cos(Mathf.Deg2Rad * transform.eulerAngles.y));
     }
 
     void Turn()
@@ -136,30 +139,60 @@ public class CameraED : MonoBehaviour {
 
 	void EditorCam () {
 
-       if (Input.GetAxis("JoyThumbSecV") <= 0.5)
+		//controller
+		if (Input.GetAxis("JoyThumbSecV") <= 0.5 )
        {
           // transform.RotateAround(Vector3.zero, -Vector3.up, 90 * Time.deltaTime);
            transform.Rotate(Vector3.up * 75 * Time.deltaTime, Space.World);
        }
 
-       if (Input.GetAxis("JoyThumbSecV")  >= -0.5)
+		 if (Input.GetAxis("JoyThumbSecV")  >= -0.5 )
        {
         //   transform.RotateAround(Vector3.zero, Vector3.up, 90 * Time.deltaTime);
            transform.Rotate(Vector3.down * 75 * Time.deltaTime, Space.World);
        }
 
-       if (Input.GetAxis("JoyThumbSecH") <= 0.5)
+		 if (Input.GetAxis("JoyThumbSecH") <= 0.5 )
        {
            transform.Rotate(Vector3.right * 75 * Time.deltaTime);
        }
 
-       if (Input.GetAxis("JoyThumbSecH") >= -0.5)
+		 if (Input.GetAxis("JoyThumbSecH") >= -0.5 )
        {
            transform.Rotate(Vector3.left * 75 *Time.deltaTime);
        }
 
        transform.Translate(new Vector3(0, 0, -Input.GetAxis("JoyTrigger")) * 5 * Time.deltaTime);
     //    transform.eulerAngles = new Vector3(-vCam.y, vCam.x, 0) * 25 * Time.deltaTime;
+
+		///keyboard
+
+		Debug.Log(mouseOrigin.x.ToString() + "-" + mouseOrigin.y.ToString());
+		 mouseOrigin = Input.mousePosition;
+
+		if (mouseOrigin.x >= Screen.width - 10 && Input.GetKey(KeyCode.Mouse1))
+		{
+			// transform.RotateAround(Vector3.zero, -Vector3.up, 90 * Time.deltaTime);
+			transform.Rotate(Vector3.up * 75 * Time.deltaTime, Space.World);
+		}
+		
+		if ( mouseOrigin.x <= 0 && Input.GetKey(KeyCode.Mouse1))
+		{
+			//   transform.RotateAround(Vector3.zero, Vector3.up, 90 * Time.deltaTime);
+			transform.Rotate(Vector3.down * 75 * Time.deltaTime, Space.World);
+		}
+		
+		if (mouseOrigin.y <= 0  && Input.GetKey(KeyCode.Mouse1))
+       {
+           transform.Rotate(Vector3.right * 75 * Time.deltaTime);
+       }
+
+		if ( mouseOrigin.y >= Screen.height - 10&& Input.GetKey(KeyCode.Mouse1))
+       {
+           transform.Rotate(Vector3.left * 75 *Time.deltaTime);
+       }
+
+		transform.Translate(new Vector3(0, 0, -Input.GetAxis("Vertical")) * 5 * Time.deltaTime);
 
 	}
 

@@ -35,7 +35,7 @@ public class Placer : MonoBehaviour {
             move = true;
         }
 
-        if (Input.GetAxis("JoyVertical") == 1f)
+		if (Input.GetAxis("JoyVertical") == 1f || Input.GetKeyDown(KeyCode.W))
         {
             if (move)
             {
@@ -44,7 +44,7 @@ public class Placer : MonoBehaviour {
             }
         }
 
-        if (Input.GetAxis("JoyVertical") == -1f)
+		if (Input.GetAxis("JoyVertical") == -1f || Input.GetKeyDown(KeyCode.S))
         {
             if (move)
             {
@@ -53,7 +53,7 @@ public class Placer : MonoBehaviour {
             }
         }
 
-        if (Input.GetAxis("JoyHorizontal") == 1f)
+		if (Input.GetAxis("JoyHorizontal") == 1f || Input.GetKeyDown(KeyCode.D))
         {
             if (move)
             {
@@ -62,7 +62,7 @@ public class Placer : MonoBehaviour {
             }
         }
 
-        if (Input.GetAxis("JoyHorizontal") == -1f)
+		if (Input.GetAxis("JoyHorizontal") == -1f || Input.GetKeyDown(KeyCode.A))
         {
             if (move)
             {
@@ -71,33 +71,33 @@ public class Placer : MonoBehaviour {
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Joystick1Button2))
+		if (Input.GetKeyDown(KeyCode.Joystick1Button2) || Input.GetKeyDown(KeyCode.Q))
         {
             transform.Translate(new Vector3(0, -1, 0));
         }
 
 
-        if (Input.GetKeyDown(KeyCode.Joystick1Button3))
+		if (Input.GetKeyDown(KeyCode.Joystick1Button3) || Input.GetKeyDown(KeyCode.E))
         {
             transform.Translate(new Vector3(0, 1, 0));
         }
 
-        if (Input.GetKeyDown(KeyCode.Joystick1Button0))
+		if (Input.GetKeyDown(KeyCode.Joystick1Button0) || Input.GetKeyDown(KeyCode.J))
         {
             Instantiate(Cube, transform.position, transform.rotation);
         }
 
-        if (Input.GetKeyDown(KeyCode.Joystick1Button4) && !Starter)
+		if (Input.GetKeyDown(KeyCode.Joystick1Button4) && !Starter || Input.GetKeyDown(KeyCode.K) && !Starter)
         {
             Instantiate(Startpoint, transform.position, transform.rotation);
         }
 
-        if (Input.GetKeyDown(KeyCode.Joystick1Button5) && !Ender)
+		if (Input.GetKeyDown(KeyCode.Joystick1Button5) && !Ender || Input.GetKeyDown(KeyCode.L) && !Ender)
         {
             Instantiate(Finishline, transform.position, transform.rotation);
         }
 
-        if (Input.GetKey(KeyCode.Joystick1Button1))
+		if (Input.GetKey(KeyCode.Joystick1Button1) || Input.GetKey(KeyCode.Delete))
         {
             store = transform.position;
             transform.position = new Vector3(999, 999, 999);
@@ -110,7 +110,7 @@ public class Placer : MonoBehaviour {
 
         CheckActors();
 
-        if(Input.GetKeyDown(KeyCode.Joystick1Button7))
+		if(Input.GetKeyDown(KeyCode.Joystick1Button7) || Input.GetKeyDown(KeyCode.Escape))
         {
             paused = !paused;
         }
@@ -129,7 +129,7 @@ public class Placer : MonoBehaviour {
 
      void OnTriggerStay(Collider other)
     {
-        if (Input.GetKey(KeyCode.Joystick1Button1))
+		if (Input.GetKey(KeyCode.Joystick1Button1) || Input.GetKey(KeyCode.Delete))
         {
             Destroy(other.gameObject);
         }

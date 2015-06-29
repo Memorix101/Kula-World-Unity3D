@@ -138,12 +138,12 @@ public class BallPlayer : MonoBehaviour {
             //Debug.Log("Reached");
         }
 
-        if (Input.GetAxis("JoyVertical") == 0f && Input.GetAxis("JoyHorizontal") == 0f)
+		if (Input.GetAxis("JoyVertical") == 0f && Input.GetAxis("JoyHorizontal") == 0f )
         {
             pressed = false;
         }
 
-        if (CameraED.camPos == CameraED.CamPos.fwd && Input.GetAxis("JoyVertical") == 1f && !move && !pressed)
+		if (CameraED.camPos == CameraED.CamPos.fwd && Input.GetAxis("JoyVertical") == 1f && !move && !pressed || CameraED.camPos == CameraED.CamPos.fwd && Input.GetKeyDown(KeyCode.W) && !move && !pressed)
         {
            
             if (!mfwd)
@@ -156,7 +156,7 @@ public class BallPlayer : MonoBehaviour {
 
         }
 
-        if (CameraED.camPos == CameraED.CamPos.back && Input.GetAxis("JoyVertical") == 1f && !move && !pressed)
+		if (CameraED.camPos == CameraED.CamPos.back && Input.GetAxis("JoyVertical") == 1f && !move && !pressed || CameraED.camPos == CameraED.CamPos.back &&  Input.GetKeyDown(KeyCode.W) && !move && !pressed)
         {
             if (!mbwd)
             {
@@ -167,7 +167,7 @@ public class BallPlayer : MonoBehaviour {
             }
         }
 
-        if (CameraED.camPos == CameraED.CamPos.right && Input.GetAxis("JoyVertical") == 1f && !move && !pressed)
+		if (CameraED.camPos == CameraED.CamPos.right && Input.GetAxis("JoyVertical") == 1f && !move && !pressed || CameraED.camPos == CameraED.CamPos.right && Input.GetKeyDown(KeyCode.W) && !move && !pressed)
         {
             if (!mright)
             {
@@ -178,7 +178,7 @@ public class BallPlayer : MonoBehaviour {
             }
         }
 
-        if (CameraED.camPos == CameraED.CamPos.left && Input.GetAxis("JoyVertical") == 1f && !move && !pressed)
+		if (CameraED.camPos == CameraED.CamPos.left && Input.GetAxis("JoyVertical") == 1f && !move && !pressed || CameraED.camPos == CameraED.CamPos.left && Input.GetKeyDown(KeyCode.W) && !move && !pressed)
         {
             if (!mleft)
             {
@@ -191,7 +191,7 @@ public class BallPlayer : MonoBehaviour {
 
 
         //backwards
-        if (CameraED.camPos == CameraED.CamPos.fwd && Input.GetAxis("JoyVertical") == -1f && !move && !pressed)
+		if (CameraED.camPos == CameraED.CamPos.fwd && Input.GetAxis("JoyVertical") == -1f && !move && !pressed || CameraED.camPos == CameraED.CamPos.fwd && Input.GetKeyDown(KeyCode.S) && !move && !pressed)
         {
 
             if (!mbwd)
@@ -204,7 +204,7 @@ public class BallPlayer : MonoBehaviour {
 
         }
 
-        if (CameraED.camPos == CameraED.CamPos.back && Input.GetAxis("JoyVertical") == -1f && !move && !pressed)
+		if (CameraED.camPos == CameraED.CamPos.back && Input.GetAxis("JoyVertical") == -1f && !move && !pressed || CameraED.camPos == CameraED.CamPos.back && Input.GetKeyDown(KeyCode.S) && !move && !pressed)
         {
             if (!mfwd)
             {
@@ -215,7 +215,7 @@ public class BallPlayer : MonoBehaviour {
             }
         }
 
-        if (CameraED.camPos == CameraED.CamPos.right && Input.GetAxis("JoyVertical") == -1f && !move && !pressed)
+		if (CameraED.camPos == CameraED.CamPos.right && Input.GetAxis("JoyVertical") == -1f && !move && !pressed || CameraED.camPos == CameraED.CamPos.right && Input.GetKeyDown(KeyCode.S) && !move && !pressed)
         {
             if (!mleft)
             {
@@ -226,7 +226,7 @@ public class BallPlayer : MonoBehaviour {
             }
         }
 
-        if (CameraED.camPos == CameraED.CamPos.left && Input.GetAxis("JoyVertical") == -1f && !move && !pressed)
+		if (CameraED.camPos == CameraED.CamPos.left && Input.GetAxis("JoyVertical") == -1f && !move && !pressed || CameraED.camPos == CameraED.CamPos.left && Input.GetKeyDown(KeyCode.S) && !move && !pressed)
         {
             if (!mright)
             {

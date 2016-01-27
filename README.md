@@ -1,4 +1,7 @@
 # Kula-World-Unity3d
+
+!!! OLD CODE GO TO MASTER FOR NEW REWRITE OF THIS PROJECT !!!
+
 A remake of Kula World / Roll Away in Unity with In-Game Editor
 
 ![screenshot 90](https://cloud.githubusercontent.com/assets/1466920/10977829/ccadd56a-83f3-11e5-8e5f-e8dd960e10a8.png)

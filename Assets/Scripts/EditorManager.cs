@@ -6,7 +6,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.IO;
 
-public class EditorManager : MonoBehaviour {
+public class EditorManager : MonoBehaviour
+{
 
     public GameObject Cube;
     public GameObject Coin;
@@ -17,13 +18,15 @@ public class EditorManager : MonoBehaviour {
     string dirIO = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Kula Roll Away\\Unity");
 
 
-    void Start () {
-	
-	}
-	
-	void Update () {
-	
-	}
+    void Start()
+    {
+
+    }
+
+    void Update()
+    {
+
+    }
 
     public void LoadLevel()
     {
@@ -32,27 +35,27 @@ public class EditorManager : MonoBehaviour {
         {
             //Exists
 
-        string[] data;
+            string[] data;
 
-        FileStream fileStream = File.OpenRead(pathIO + "\\test.mlvl");
+            FileStream fileStream = File.OpenRead(pathIO + "\\test.mlvl");
 
-        byte[] bytes = new byte[fileStream.Length];
+            byte[] bytes = new byte[fileStream.Length];
 
-        fileStream.Read(bytes, 0, bytes.Length);
-        data = System.Text.Encoding.UTF8.GetString(bytes).Split('\n');
+            fileStream.Read(bytes, 0, bytes.Length);
+            data = System.Text.Encoding.UTF8.GetString(bytes).Split('\n');
 
-        if(!data[0].Contains("mlvl"))
-        {
-            Debug.LogError("Wrong format !");
-        }
+            if (!data[0].Contains("mlvl"))
+            {
+                Debug.LogError("Wrong format !");
+            }
 
-        for (int i = 0; i < data.Length; i++)
-        {
-            string match = Regex.Match(data[i], @"\[([^]]*)\]").Groups[1].Value;
+            for (int i = 0; i < data.Length; i++)
+            {
+                string match = Regex.Match(data[i], @"\[([^]]*)\]").Groups[1].Value;
 
-            match = match.Replace(" ", "");
+                match = match.Replace(" ", "");
 
-            string[] cords = match.Split(',');
+                string[] cords = match.Split(',');
 
                 if (cords[0].Contains("Cube"))
                 {
@@ -70,7 +73,7 @@ public class EditorManager : MonoBehaviour {
                 {
                     GameObject.Instantiate(Finish, new Vector3(float.Parse(cords[1]), float.Parse(cords[2]), float.Parse(cords[3])), Quaternion.identity);
                 }
-        }
+            }
 
             Debug.Log("loaded");
         }
@@ -87,7 +90,7 @@ public class EditorManager : MonoBehaviour {
         {
             //Exists
             saveFile();
-        Debug.Log("saved");
+            Debug.Log("saved");
         }
         else
         {

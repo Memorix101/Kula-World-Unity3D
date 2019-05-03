@@ -6,12 +6,18 @@ using System.IO;
 
 public class MainMenu : MonoBehaviour
 {
-
     // Use this for initialization
     void Start()
     {
-        string pathIO = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Kula Roll Away\\Unity");
-        if (Directory.Exists(pathIO))
+        if (Directory.Exists(GameManager.GameFolderPath))
+        {
+            //all good :)
+        }
+        else
+        {
+            Directory.CreateDirectory(GameManager.GameFolderPath);
+        }
+        if (Directory.Exists(GameManager.GameFolderPath + "/Maps"))
         {
             //all good :)
         }
@@ -20,12 +26,12 @@ public class MainMenu : MonoBehaviour
             string[] files = Directory.GetFiles(Application.dataPath + "/Resources/Maps", "*mlvl");
             string[] fileNames = new string[files.Length];
 
-            Directory.CreateDirectory(pathIO);
+            Directory.CreateDirectory(GameManager.GameFolderPath + "/Maps");
 
             for (int i = 0; i < files.Length; i++)
             {
                 fileNames[i] = Path.GetFileName(files[i]);
-                File.Copy(files[i], pathIO + "/" + fileNames[i], true);
+                File.Copy(files[i], GameManager.GameFolderPath + "/Maps/" + fileNames[i], true);
             }
         }
     }

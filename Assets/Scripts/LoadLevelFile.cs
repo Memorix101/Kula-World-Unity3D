@@ -6,40 +6,37 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.IO;
 
-public class LoadLevelFile : MonoBehaviour {
-
+public class LoadLevelFile : MonoBehaviour
+{
     public GameObject Cube;
     public GameObject Startline;
     public GameObject Finish;
     public GameObject Coin;
 
-      string pathIO = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Kula Roll Away\\Unity");
-     string dirIO = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Kula Roll Away\\Unity");
-
-
-    void Start () {
+    void Start()
+    {
         LoadLevel();
 
     }
-	
-	void Update () {
-	
-	}
+
+    void Update()
+    {
+
+    }
 
     public void LoadLevel()
     {
-
         string[] data;
 
         // FileStream fileStream = File.OpenRead("Assets/Resources/Maps/test.mlvl");
-        FileStream fileStream = File.OpenRead(pathIO + "\\test.mlvl");
+        FileStream fileStream = File.OpenRead(GameManager.GameFolderPath + "/Maps/test.mlvl");
 
         byte[] bytes = new byte[fileStream.Length];
 
         fileStream.Read(bytes, 0, bytes.Length);
         data = System.Text.Encoding.UTF8.GetString(bytes).Split('\n');
 
-        if(!data[0].Contains("mlvl"))
+        if (!data[0].Contains("mlvl"))
         {
             Debug.LogError("Wrong format !");
         }
@@ -70,7 +67,6 @@ public class LoadLevelFile : MonoBehaviour {
             }
         }
 
-            Debug.Log("loaded");
-        }
-        
+        Debug.Log("loaded");
+    }
 }

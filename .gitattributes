@@ -3,4 +3,4 @@
 
 # Custom for Visual Studio
 *.cs     diff=csharp
-*.cs linguist-language=csharp
+*.* linguist-language=csharp

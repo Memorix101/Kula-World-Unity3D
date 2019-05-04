@@ -3,9 +3,10 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections;
 
-public class Player : MonoBehaviour {
-    
-	private float speed = 5f;
+public class Player : MonoBehaviour
+{
+
+    private float speed = 5f;
     bool move = false;
     Vector3 tarDir;
     Vector3 rollDir;
@@ -26,61 +27,71 @@ public class Player : MonoBehaviour {
     Vector3 starPos;
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         levelFinished = false;
         respawn = true;
         starPos = transform.position;
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update()
+    {
 
         StageClear = levelFinished;
 
-		if(GameManager.editState == GameManager.EditState.Edit)
-		{
-			Destroy(gameObject); // Player will be destroy if not in play mode
-		}
+        if (GameManager.editState == GameManager.EditState.Edit)
+        {
+            Destroy(gameObject); // Player will be destroy if not in play mode
+        }
 
         if (!move)
+        {
             ColDetection();
+        }
 
         if (stuck)
+        {
             Gravity();
+        }
 
         Move();
-    
+
         CoinsUI.text = coins.ToString();
 
         if (levelFinished)
+        {
             FinishUI.SetActive(true);
+        }
         else
+        {
             FinishUI.SetActive(false);
+        }
 
         //Debug.LogError("stuck" + stuck.ToString());
     }
 
-	void InputMove()
-	{
+    void InputMove()
+    {
         if (!move && !Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D) && Input.GetKey(KeyCode.W))
         {
-            if (!stuck){
+            if (!stuck)
+            {
                 pressed = true;
                 move = true;
                 tarDir = Camera.main.transform.forward;
                 rollDir = Camera.main.transform.forward;
                 endpoint = new Vector3(tarDir.x > 0.5f ? 1 : tarDir.x < -0.5f ? -1 : 0, 0, tarDir.z > 0.5f ? 1 : tarDir.z < -0.5f ? -1 : 0) + transform.position; //<-------- LOLZ ^o^
             }
-		}
-	}
-    
+        }
+    }
 
-    void AddCoins() 
+    void AddCoins()
     {
         coins += 1;
     }
 
-  void LevelFinished() 
+    void LevelFinished()
     {
         levelFinished = true;
         //GUI HERE
@@ -120,24 +131,23 @@ public class Player : MonoBehaviour {
         {
             stuck = true;
         }
-
-    } 
+    }
 
     void Move()
     {
-
         float tarY = transform.position.y;
 
-        if(!levelFinished)
-           InputMove();
+        if (!levelFinished)
+        {
+            InputMove();
+        }
 
         if (respawn)
         {
             respawn = false;
-           //GUI HERE
+            //GUI HERE
         }
-         
-       
+
         //Debug.Log("move: " + move + " : " + endpoint);
 
         if (move)
@@ -146,24 +156,24 @@ public class Player : MonoBehaviour {
             transform.position = Vector3.MoveTowards(transform.position, endpoint, 5 * Time.deltaTime);
         }
 
-        if(endpoint.x == transform.position.x && endpoint.z == transform.position.z)
+        if (endpoint.x == transform.position.x && endpoint.z == transform.position.z)
         {
             move = false;
             pressed = false;
             rollDir = Vector3.zero;
             Debug.Log("Reached");
-        }                         
+        }
     }
 
     void KillMe()
     {
-        timer += 1 * Time.deltaTime;
+        timer += Time.deltaTime;
 
         if (timer > 3)
         {
-            // Destroy(gameObject);
-            //  transform.position = starPos;
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            //Destroy(gameObject);
+            transform.position = starPos;
+            //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             timer = 0;
         }
     }

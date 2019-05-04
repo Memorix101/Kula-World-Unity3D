@@ -26,12 +26,10 @@ public class EditorManager : MonoBehaviour
 
     void Awake()
     {
-
     }
 
     void Start()
     {
-
     }
 
     void Update()
@@ -196,7 +194,7 @@ public class EditorManager : MonoBehaviour
             writer.Write(saveBuilder.ToString());
         }
     }
-
+    
     public void ExitEditor()
     {
         SceneManager.LoadScene("Menu");

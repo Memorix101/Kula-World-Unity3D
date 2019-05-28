@@ -51,8 +51,6 @@ obj
 Logs
 Library
 
-*.meta
-
 Win64/
 
 Linux64/

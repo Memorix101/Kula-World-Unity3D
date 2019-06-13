@@ -32,6 +32,7 @@ public class LoadLevelFile : MonoBehaviour
 
         // FileStream fileStream = File.OpenRead("Assets/Resources/Maps/test.mlvl");
         FileStream fileStream = File.OpenRead(GameManager.GameFolderPath + "/Maps/test.mlvl");
+        //FileStream fileStream = File.OpenRead(GameManager.GameFolderPath + "/Maps/luna.mlvl");
 
         byte[] bytes = new byte[fileStream.Length];
 

@@ -2,7 +2,7 @@
 - [x] Respawn Screen 
 - [x] Level Timer
 - [x] Rearrange HUD
-- [ ] Jumping
+- [x] Jumping
 - [ ] "Luna Walker" Block
 - [ ] Keys
 - [ ] Traps

@@ -25,10 +25,13 @@ public class Player : MonoBehaviour
     public GameObject RetryUI;
 
     public AudioClip snd_death;
+    public AudioClip snd_jump;
 
     public static bool StageClear;
     bool levelFinished;
     Vector3 starPos;
+
+    private Camera uiCamera;
 
     private float level_timer;
 
@@ -44,6 +47,8 @@ public class Player : MonoBehaviour
         FinishUI.SetActive(false);
 
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+
+        uiCamera = transform.GetChild(5).GetComponent<Camera>();
 
         level_timer = 90 + 1; // 90 seconds + 1s overtime 
     }
@@ -97,6 +102,7 @@ public class Player : MonoBehaviour
         }
 
         TimerUI.text = string.Format("{0}", (int)level_timer);
+        uiCamera.transform.eulerAngles = new Vector3(0, Camera.main.transform.eulerAngles.y, Camera.main.transform.eulerAngles.z);
     }
 
     void InputMove()
@@ -118,7 +124,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        /*if (!move && Input.GetKey(KeyCode.Space))
+        if (!move && Input.GetKeyDown(KeyCode.Space))
         {
             if (!jump)
             {
@@ -131,8 +137,16 @@ public class Player : MonoBehaviour
                                Mathf.PingPong(Time.time, 1f),
                                tarDir.z > 0.5f ? 2f : tarDir.z < -0.5f ? -2f : 0f
                            ) + transform.position; //<-------- LOLZ ^o^
+
+                GameObject soundObj = new GameObject("JumpSound");
+                soundObj.AddComponent<AudioSource>();
+                soundObj.GetComponent<AudioSource>().playOnAwake = true;
+                soundObj.GetComponent<AudioSource>().spread = 360f;
+                soundObj.GetComponent<AudioSource>().clip = snd_jump;
+                soundObj.GetComponent<AudioSource>().Play();
+                Destroy(soundObj, 3f);
             }
-        }*/
+        }
     }
 
     public void AddCoins()
@@ -184,8 +198,9 @@ public class Player : MonoBehaviour
             stuck = true;
         }
 
-        if (Physics.Raycast(transform.position, Camera.main.transform.forward, out hit, 2f))
+        if (Physics.Raycast(transform.position, uiCamera.transform.forward, out hit, 3f))
         {
+            Debug.DrawRay(transform.position, uiCamera.transform.forward, Color.red);
             jump = true;
             Debug.Log("true jump ");
         }
@@ -218,7 +233,7 @@ public class Player : MonoBehaviour
             move = false;
             pressed = false;
             rollDir = Vector3.zero;
-            Debug.Log("Reached");
+            //Debug.Log("Reached");
         }
     }
 

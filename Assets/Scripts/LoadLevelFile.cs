@@ -13,10 +13,12 @@ public class LoadLevelFile : MonoBehaviour
     public GameObject Finish;
     public GameObject Coin;
 
+    private GameObject levelGO;
+
     void Start()
     {
+        levelGO = new GameObject("Stage");
         LoadLevel();
-
     }
 
     void Update()
@@ -44,26 +46,33 @@ public class LoadLevelFile : MonoBehaviour
         for (int i = 0; i < data.Length; i++)
         {
             string match = Regex.Match(data[i], @"\[([^]]*)\]").Groups[1].Value;
-
             match = match.Replace(" ", "");
 
             string[] cords = match.Split(',');
 
             if (cords[0].Contains("Cube"))
             {
-                GameObject.Instantiate(Cube, new Vector3(float.Parse(cords[1]), float.Parse(cords[2]), float.Parse(cords[3])), Quaternion.identity);
+                GameObject GO;
+                GO = Instantiate(Cube, new Vector3(float.Parse(cords[1]), float.Parse(cords[2]), float.Parse(cords[3])), Quaternion.identity);
+                GO.transform.parent = levelGO.transform;
             }
             else if (cords[0].Contains("Coin"))
             {
-                GameObject.Instantiate(Coin, new Vector3(float.Parse(cords[1]), float.Parse(cords[2]), float.Parse(cords[3])), Quaternion.identity);
+                GameObject GO;
+                GO = Instantiate(Coin, new Vector3(float.Parse(cords[1]), float.Parse(cords[2]), float.Parse(cords[3])), Quaternion.identity);
+                GO.transform.parent = levelGO.transform;
             }
             else if (cords[0].Contains("Start"))
             {
-                GameObject.Instantiate(Startline, new Vector3(float.Parse(cords[1]), float.Parse(cords[2]), float.Parse(cords[3])), Quaternion.identity);
+                GameObject GO;
+                GO = Instantiate(Startline, new Vector3(float.Parse(cords[1]), float.Parse(cords[2]), float.Parse(cords[3])), Quaternion.identity);
+                GO.transform.parent = levelGO.transform;
             }
             else if (cords[0].Contains("Finish"))
             {
-                GameObject.Instantiate(Finish, new Vector3(float.Parse(cords[1]), float.Parse(cords[2]), float.Parse(cords[3])), Quaternion.identity);
+                GameObject GO;
+                GO = Instantiate(Finish, new Vector3(float.Parse(cords[1]), float.Parse(cords[2]), float.Parse(cords[3])), Quaternion.identity);
+                GO.transform.parent = levelGO.transform;
             }
         }
 

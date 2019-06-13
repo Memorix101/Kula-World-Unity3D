@@ -39,7 +39,6 @@ public class GameManager : MonoBehaviour
         if (Playmode)
         {
             GameObject emptyGO = new GameObject("emptyGO");
-
             PlayIcon = emptyGO;
             EditIcon = emptyGO;
         }

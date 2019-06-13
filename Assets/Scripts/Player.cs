@@ -186,7 +186,7 @@ public class Player : MonoBehaviour
     {
         Key_UI_Parent.transform.GetChild(keys).GetComponent<Image>().sprite = key_pickup;
         keys += 1;
-        Debug.Log(Key_UI_Parent.transform.childCount);
+        //Debug.Log(Key_UI_Parent.transform.childCount);
     }
 
     public void LevelFinished(Transform obj)

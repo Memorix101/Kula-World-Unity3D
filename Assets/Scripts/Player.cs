@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     Vector3 tarDir;
     Vector3 rollDir;
     bool stuck;
+    bool jump;
     float timer = 0f;
     bool pressed = false;
     Vector3 endpoint;
@@ -29,7 +30,7 @@ public class Player : MonoBehaviour
     bool levelFinished;
     Vector3 starPos;
 
-    private float level_timer = 90;
+    private float level_timer;
 
     private GameManager gm;
 
@@ -44,7 +45,7 @@ public class Player : MonoBehaviour
 
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
 
-        level_timer = 91; // 90 seconds + 1s overtime 
+        level_timer = 90 + 1; // 90 seconds + 1s overtime 
     }
 
     // Update is called once per frame
@@ -80,6 +81,15 @@ public class Player : MonoBehaviour
     {
         level_timer -= Time.deltaTime;
 
+        if (level_timer > 10)
+        {
+            TimerUI.color = Color.green;
+        }
+        else
+        {
+            TimerUI.color = Color.red;
+        }
+
         if (level_timer < 0)
         {
             level_timer = 0;
@@ -92,8 +102,7 @@ public class Player : MonoBehaviour
     void InputMove()
     {
         if (!move && !Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D) && Input.GetKey(KeyCode.W) ||
-            !move && !Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow) &&
-            Input.GetKey(KeyCode.UpArrow))
+            !move && !Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow) && Input.GetKey(KeyCode.UpArrow))
         {
             if (!stuck)
             {
@@ -101,11 +110,29 @@ public class Player : MonoBehaviour
                 move = true;
                 tarDir = Camera.main.transform.forward;
                 rollDir = Camera.main.transform.forward;
-                endpoint = new Vector3(tarDir.x > 0.5f ? 1 : tarDir.x < -0.5f ? -1 : 0, 0,
-                               tarDir.z > 0.5f ? 1 : tarDir.z < -0.5f ? -1 : 0) +
-                           transform.position; //<-------- LOLZ ^o^
+                endpoint = new Vector3(
+                               tarDir.x > 0.5f ? 1f : tarDir.x < -0.5f ? -1f : 0f, 
+                               0f, 
+                               tarDir.z > 0.5f ? 1f : tarDir.z < -0.5f ? -1f : 0f
+                               ) + transform.position; //<-------- LOLZ ^o^
             }
         }
+
+        /*if (!move && Input.GetKey(KeyCode.Space))
+        {
+            if (!jump)
+            {
+                pressed = true;
+                move = true;
+                tarDir = Camera.main.transform.forward;
+                rollDir = Camera.main.transform.forward;
+                endpoint = new Vector3(
+                               tarDir.x > 0.5f ? 2f : tarDir.x < -0.5f ? -2f : 0f,
+                               Mathf.PingPong(Time.time, 1f),
+                               tarDir.z > 0.5f ? 2f : tarDir.z < -0.5f ? -2f : 0f
+                           ) + transform.position; //<-------- LOLZ ^o^
+            }
+        }*/
     }
 
     public void AddCoins()
@@ -156,6 +183,17 @@ public class Player : MonoBehaviour
         {
             stuck = true;
         }
+
+        if (Physics.Raycast(transform.position, Camera.main.transform.forward, out hit, 2f))
+        {
+            jump = true;
+            Debug.Log("true jump ");
+        }
+        else
+        {
+            jump = false;
+            Debug.Log("false jump");
+        }
     }
 
     void Move()
@@ -183,7 +221,6 @@ public class Player : MonoBehaviour
             Debug.Log("Reached");
         }
     }
-
 
     void FellOff()
     {

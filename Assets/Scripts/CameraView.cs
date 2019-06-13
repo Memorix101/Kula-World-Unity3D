@@ -33,9 +33,7 @@ public class CameraView : MonoBehaviour {
             time = 0;
         }
 
-
-       transform.RotateAround(target.transform.position, axis, angle * Time.deltaTime);
-
+        transform.RotateAround(target.transform.position, axis, angle * Time.deltaTime);
     }
 
 

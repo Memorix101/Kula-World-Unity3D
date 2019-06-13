@@ -5,13 +5,11 @@ using System.Collections;
 
 public class Player : MonoBehaviour
 {
-
     private float speed = 5f;
     bool move = false;
     Vector3 tarDir;
     Vector3 rollDir;
     bool stuck;
-    bool respawn;
     float timer = 0f;
     bool pressed = false;
     Vector3 endpoint;
@@ -21,23 +19,31 @@ public class Player : MonoBehaviour
     private int coins = 0;
 
     public GameObject FinishUI;
+    public GameObject RetryUI;
+
+    public AudioClip snd_death;
 
     public static bool StageClear;
     bool levelFinished;
     Vector3 starPos;
 
+    public GameManager gm;
+
     // Use this for initialization
     void Start()
     {
         levelFinished = false;
-        respawn = true;
         starPos = transform.position;
+
+        RetryUI.SetActive(false);
+        FinishUI.SetActive(false);
+
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
     void Update()
     {
-
         StageClear = levelFinished;
 
         if (GameManager.editState == GameManager.EditState.Edit)
@@ -59,21 +65,13 @@ public class Player : MonoBehaviour
 
         CoinsUI.text = coins.ToString();
 
-        if (levelFinished)
-        {
-            FinishUI.SetActive(true);
-        }
-        else
-        {
-            FinishUI.SetActive(false);
-        }
-
         //Debug.LogError("stuck" + stuck.ToString());
     }
 
     void InputMove()
     {
-        if (!move && !Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D) && Input.GetKey(KeyCode.W))
+        if (!move && !Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D) && Input.GetKey(KeyCode.W) ||
+            !move && !Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow) && Input.GetKey(KeyCode.UpArrow))
         {
             if (!stuck)
             {
@@ -86,15 +84,18 @@ public class Player : MonoBehaviour
         }
     }
 
-    void AddCoins()
+    public void AddCoins()
     {
         coins += 1;
     }
 
-    void LevelFinished()
+    public void LevelFinished()
     {
-        levelFinished = true;
-        //GUI HERE
+        if (!gm.getInEditor)
+        {
+            levelFinished = true;
+            FinishUI.SetActive(true); //GUI
+        }
     }
 
     void Gravity()
@@ -142,12 +143,6 @@ public class Player : MonoBehaviour
             InputMove();
         }
 
-        if (respawn)
-        {
-            respawn = false;
-            //GUI HERE
-        }
-
         //Debug.Log("move: " + move + " : " + endpoint);
 
         if (move)
@@ -172,10 +167,27 @@ public class Player : MonoBehaviour
         if (timer > 3)
         {
             //Destroy(gameObject);
-            transform.position = starPos;
+            //transform.position = starPos;
             //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             timer = 0;
+
+            if (!gm.getInEditor)
+            {
+                RetryUI.SetActive(true);
+                levelFinished = true;
+
+                GameObject soundObj = new GameObject("DeathSound");
+                soundObj.AddComponent<AudioSource>();
+                soundObj.GetComponent<AudioSource>().playOnAwake = true;
+                soundObj.GetComponent<AudioSource>().spread = 360f;
+                soundObj.GetComponent<AudioSource>().clip = snd_death;
+                soundObj.GetComponent<AudioSource>().Play();
+                Destroy(soundObj, 3f);
+            }
+            else
+            {
+                transform.position = starPos;
+            }
         }
     }
-
 }

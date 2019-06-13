@@ -36,7 +36,7 @@ public class ActorAction : MonoBehaviour {
                 soundObj.GetComponent<AudioSource>().Play();
                 Destroy(soundObj, 3f);
 
-                c.gameObject.SendMessage("AddCoins");
+                c.gameObject.GetComponent<Player>().AddCoins();
                 Destroy(gameObject);
             }
         }
@@ -53,7 +53,7 @@ public class ActorAction : MonoBehaviour {
                 soundObj.GetComponent<AudioSource>().Play();
                 Destroy(soundObj, 3f);
 
-                c.gameObject.SendMessage("LevelFinished"); //Destroy(c.gameObject); //Level Done !
+                c.gameObject.GetComponent<Player>().LevelFinished(); //Level Done !
             }
         }
     }

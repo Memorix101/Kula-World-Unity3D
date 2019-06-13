@@ -36,12 +36,10 @@ public class SceneCamera : MonoBehaviour {
 
         time = 14.9f; //a little trick ;) pssst
         camPos = CamPos.fwd;
-	
 	}
 
 	// Update is called once per frame
 	void Update () {
-               
 
 		if(GameManager.editState == GameManager.EditState.Play)
 		{
@@ -51,32 +49,31 @@ public class SceneCamera : MonoBehaviour {
 		{
 			EditCam();
         }
-	
 	}
 
 	void PlayCam()
 	{
 		if(ballPlayer == null){
             ballPlayer = GameObject.FindWithTag("Player");
-        //    transform.SetParent(ballPlayer.transform);
+            //transform.SetParent(ballPlayer.transform);
 			Debug.Log("No Player");
 		}
 
         if (ballPlayer != null && !Player.StageClear)
         {
 
-            //  Debug.Log("Player Stuff: " + ballPlayer.transform.position);
+            //Debug.Log("Player Stuff: " + ballPlayer.transform.position);
 
             Turn();
 
-            if (Input.GetKeyDown(KeyCode.A))
+            if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
             {
                 // turn left
                 camTurn = true;
                 tarY += 90f;
                 axis = new Vector3(0, 1, 0);
             }
-            else if (Input.GetKeyDown(KeyCode.D))
+            else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
             {
                 //turn right
                 camTurn = true;
@@ -91,18 +88,17 @@ public class SceneCamera : MonoBehaviour {
                 tarY = 270f;
 
             transform.position = ballPlayer.transform.position;
-            //  transform.RotateAround(ballPlayer.transform.position, axis, 200 * Time.deltaTime);
+            //transform.RotateAround(ballPlayer.transform.position, axis, 200 * Time.deltaTime);
             Quaternion tarRot = transform.rotation;
             tarRot.eulerAngles = new Vector3(20, tarY, 0);
             transform.rotation = Quaternion.Lerp(transform.rotation, tarRot, 0.25f);
             transform.position += -transform.forward * cameraDistance + Vector3.up;
-            //  lastCamRot = transform.position;
-            //  transform.position = new Vector3(ballPlayer.transform.position.x, ballPlayer.transform.position.y,ballPlayer.transform.position.z - cameraDistance);
+            //lastCamRot = transform.position;
+            //transform.position = new Vector3(ballPlayer.transform.position.x, ballPlayer.transform.position.y,ballPlayer.transform.position.z - cameraDistance);
 
         }
         else if (ballPlayer != null && Player.StageClear)
         {
-
             //Debug.Log("HERE" + time);
 
             time += 1 * Time.deltaTime;
@@ -112,13 +108,9 @@ public class SceneCamera : MonoBehaviour {
                 RndRot();
                 time = 0;
             }
-
             transform.RotateAround(ballPlayer.transform.position, axis, angle * Time.deltaTime);
         }
-
-        
 	}
-
 
     void Turn()
     {
@@ -134,7 +126,6 @@ public class SceneCamera : MonoBehaviour {
 
     void EditCam()
 	{
-
         camPos = CamPos.fwd;
 
         if (Input.GetKey(KeyCode.W))
@@ -161,7 +152,6 @@ public class SceneCamera : MonoBehaviour {
 		{
 			transform.Translate(new Vector3(0, -1, 0) * Time.deltaTime * CamSpeed);
 		}
-
 	}
 
     void RndRot()

@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public bool Playmode;
     public static EditState editState;
     public GameObject PauseUI;
+
     private bool InEditor;
 
     public static string GameFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Kula Roll Away Unity");
@@ -18,6 +19,11 @@ public class GameManager : MonoBehaviour
     {
         Edit,
         Play
+    }
+
+    public bool getInEditor
+    {
+        get { return InEditor; }
     }
 
     void Awake()

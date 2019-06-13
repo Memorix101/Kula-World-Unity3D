@@ -18,8 +18,14 @@ public class Player : MonoBehaviour
 
     public Transform ballMesh;
     public Text CoinsUI;
+    public GameObject Key_UI;
+    public GameObject Key_UI_Parent;
     public Text TimerUI;
     private int coins = 0;
+    private int keys = 0;
+    private int keys_found = 0;
+    public Sprite key_pickup;
+    private GameObject[] keysGO;
 
     public GameObject FinishUI;
     public GameObject RetryUI;
@@ -51,6 +57,8 @@ public class Player : MonoBehaviour
         uiCamera = transform.GetChild(5).GetComponent<Camera>();
 
         level_timer = 90 + 1; // 90 seconds + 1s overtime 
+
+        FindKeys();
     }
 
     // Update is called once per frame
@@ -80,6 +88,26 @@ public class Player : MonoBehaviour
         Timer();
 
         //Debug.LogError("stuck" + stuck.ToString());
+    }
+
+    void FindKeys()
+    {
+        keysGO = GameObject.FindGameObjectsWithTag("Key");
+
+        if (keysGO.Length > 0)
+        {
+            keys_found = keysGO.Length;
+
+            foreach (var k in keysGO)
+            {
+                GameObject go = Instantiate(Key_UI, Key_UI_Parent.transform.position, Quaternion.identity);
+                go.transform.parent = Key_UI_Parent.transform;
+            }
+        }
+        else
+        {
+            keys_found = 0;
+        }
     }
 
     void Timer()
@@ -154,10 +182,26 @@ public class Player : MonoBehaviour
         coins += 1;
     }
 
-    public void LevelFinished()
+    public void AddKey()
     {
-        if (!gm.getInEditor)
+        Key_UI_Parent.transform.GetChild(keys).GetComponent<Image>().sprite = key_pickup;
+        keys += 1;
+        Debug.Log(Key_UI_Parent.transform.childCount);
+    }
+
+    public void LevelFinished(Transform obj)
+    {
+        if (!gm.getInEditor && keys == keys_found)
         {
+
+            GameObject soundObj = new GameObject("FinishSound");
+            soundObj.AddComponent<AudioSource>();
+            soundObj.GetComponent<AudioSource>().playOnAwake = true;
+            soundObj.GetComponent<AudioSource>().spread = 360f;
+            soundObj.GetComponent<AudioSource>().clip = obj.GetComponent<ActorAction>().Snd;
+            soundObj.GetComponent<AudioSource>().Play();
+            Destroy(soundObj, 3f);
+
             levelFinished = true;
             FinishUI.SetActive(true); //GUI
         }
@@ -202,12 +246,12 @@ public class Player : MonoBehaviour
         {
             Debug.DrawRay(transform.position, uiCamera.transform.forward, Color.red);
             jump = true;
-            Debug.Log("true jump ");
+            //Debug.Log("true jump ");
         }
         else
         {
             jump = false;
-            Debug.Log("false jump");
+            //Debug.Log("false jump");
         }
     }
 

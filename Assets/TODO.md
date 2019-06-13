@@ -4,5 +4,5 @@
 - [x] Rearrange HUD
 - [x] Jumping
 - [ ] "Luna Walker" Block
-- [ ] Keys
+- [x] Keys
 - [ ] Traps

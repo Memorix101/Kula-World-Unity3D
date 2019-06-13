@@ -1,6 +1,5 @@
-¾mlvl
+Ûmlvl
 [Cube, 0, 0, 0]
-[Cube, 0, 0, 1]
 [Cube, 1, 0, 1]
 [Cube, 2, 0, 1]
 [Cube, 2, 0, 0]
@@ -16,5 +15,8 @@
 [Cube, 2, 0, 7]
 [Cube, 2, 0, 6]
 [Cube, 2, 0, 5]
+[Cube, 0, 0, 1]
+[Key, 2, 1, 1]
+[Key, 0, 1, 1]
 [Start, 0, 1, -1]
-[Finish, 0, -1, -1]
+[Finish, 2, 1, -1]

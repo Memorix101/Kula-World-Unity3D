@@ -14,6 +14,7 @@ public class EditorManager : MonoBehaviour
     public GameObject Coin;
     public GameObject Startline;
     public GameObject Finish;
+    public GameObject Key;
 
     public Transform StageGameObject;
 
@@ -127,6 +128,11 @@ public class EditorManager : MonoBehaviour
                     GameObject go = Instantiate(Finish, new Vector3(float.Parse(cords[1]), float.Parse(cords[2]), float.Parse(cords[3])), Quaternion.identity);
                     go.transform.parent = StageGameObject.transform;
                 }
+                else if (cords[0].Contains("Key"))
+                {
+                    GameObject go = Instantiate(Key, new Vector3(float.Parse(cords[1]), float.Parse(cords[2]), float.Parse(cords[3])), Quaternion.identity);
+                    go.transform.parent = StageGameObject.transform;
+                }
             }
 
             Debug.Log("loaded");
@@ -173,6 +179,7 @@ public class EditorManager : MonoBehaviour
         GameObject[] coins = GameObject.FindGameObjectsWithTag("Coin");
         GameObject startpoint = GameObject.FindGameObjectWithTag("Startpoint");
         GameObject finishpoint = GameObject.FindGameObjectWithTag("Finish");
+        GameObject[] keys = GameObject.FindGameObjectsWithTag("Key");
 
         saveBuilder.Append("mlvl\n");
 
@@ -184,6 +191,11 @@ public class EditorManager : MonoBehaviour
         foreach (GameObject coin in coins)
         {
             saveBuilder.Append(string.Format("[Coin, {0}, {1}, {2}]\n", coin.transform.position.x, coin.transform.position.y, coin.transform.position.z));
+        }
+
+        foreach (GameObject key in keys)
+        {
+            saveBuilder.Append(string.Format("[Key, {0}, {1}, {2}]\n", key.transform.position.x, key.transform.position.y, key.transform.position.z));
         }
 
         saveBuilder.Append(string.Format("[Start, {0}, {1}, {2}]\n", startpoint.transform.position.x, startpoint.transform.position.y, startpoint.transform.position.z));

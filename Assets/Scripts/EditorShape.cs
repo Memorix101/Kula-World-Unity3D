@@ -7,6 +7,7 @@ public class EditorShape : MonoBehaviour
     public GameObject Ring;
     public GameObject Startline;
     public GameObject Finishline;
+    public GameObject Key;
     
     private bool canPlace = true;
     private GameObject pObject; // object that will be placed
@@ -49,7 +50,8 @@ public class EditorShape : MonoBehaviour
 
         if (Input.GetKeyUp(KeyCode.Space) && canPlace)
         {
-            Instantiate(pObject, transform.position, transform.rotation);
+            GameObject go = Instantiate(pObject, transform.position, transform.rotation);
+            go.transform.parent = transform.parent.GetComponent<EditorManager>().StageGameObject;
         }
     }
 
@@ -70,6 +72,10 @@ public class EditorShape : MonoBehaviour
         else if (sObject.Equals("Finish"))
         {
             pObject = Finishline;
+        }
+        else if (sObject.Equals("Key"))
+        {
+            pObject = Key;
         }
     }
 

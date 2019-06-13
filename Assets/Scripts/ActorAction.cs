@@ -10,6 +10,7 @@ public class ActorAction : MonoBehaviour {
     {
         Finish,
         Coin,
+        Key,
     };
 
 	// Use this for initialization
@@ -41,11 +42,11 @@ public class ActorAction : MonoBehaviour {
             }
         }
 
-        if (aaction == AAction.Finish)
+        if (aaction == AAction.Key)
         {
             if (c.gameObject.tag.Equals("Player"))
             {
-                GameObject soundObj = new GameObject("FinishSound");
+                GameObject soundObj = new GameObject("KeySound");
                 soundObj.AddComponent<AudioSource>();
                 soundObj.GetComponent<AudioSource>().playOnAwake = true;
                 soundObj.GetComponent<AudioSource>().spread = 360f;
@@ -53,7 +54,16 @@ public class ActorAction : MonoBehaviour {
                 soundObj.GetComponent<AudioSource>().Play();
                 Destroy(soundObj, 3f);
 
-                c.gameObject.GetComponent<Player>().LevelFinished(); //Level Done !
+                c.gameObject.GetComponent<Player>().AddKey();
+                Destroy(gameObject);
+            }
+        }
+
+        if (aaction == AAction.Finish)
+        {
+            if (c.gameObject.tag.Equals("Player"))
+            {
+                c.gameObject.GetComponent<Player>().LevelFinished(transform); //Level Done !
             }
         }
     }

@@ -12,6 +12,7 @@ public class LoadLevelFile : MonoBehaviour
     public GameObject Startline;
     public GameObject Finish;
     public GameObject Coin;
+    public GameObject Key;
 
     private GameObject levelGO;
 
@@ -73,6 +74,12 @@ public class LoadLevelFile : MonoBehaviour
             {
                 GameObject GO;
                 GO = Instantiate(Finish, new Vector3(float.Parse(cords[1]), float.Parse(cords[2]), float.Parse(cords[3])), Quaternion.identity);
+                GO.transform.parent = levelGO.transform;
+            }
+            else if (cords[0].Contains("Key"))
+            {
+                GameObject GO;
+                GO = Instantiate(Key, new Vector3(float.Parse(cords[1]), float.Parse(cords[2]), float.Parse(cords[3])), Quaternion.identity);
                 GO.transform.parent = levelGO.transform;
             }
         }

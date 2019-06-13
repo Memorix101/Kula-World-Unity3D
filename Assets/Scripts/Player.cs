@@ -2,6 +2,7 @@
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections;
+using System.Timers;
 
 public class Player : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class Player : MonoBehaviour
 
     public Transform ballMesh;
     public Text CoinsUI;
+    public Text TimerUI;
     private int coins = 0;
 
     public GameObject FinishUI;
@@ -27,7 +29,9 @@ public class Player : MonoBehaviour
     bool levelFinished;
     Vector3 starPos;
 
-    public GameManager gm;
+    private float level_timer = 90;
+
+    private GameManager gm;
 
     // Use this for initialization
     void Start()
@@ -39,6 +43,8 @@ public class Player : MonoBehaviour
         FinishUI.SetActive(false);
 
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+
+        level_timer = 91; // 90 seconds + 1s overtime 
     }
 
     // Update is called once per frame
@@ -65,13 +71,29 @@ public class Player : MonoBehaviour
 
         CoinsUI.text = coins.ToString();
 
+        Timer();
+
         //Debug.LogError("stuck" + stuck.ToString());
+    }
+
+    void Timer()
+    {
+        level_timer -= Time.deltaTime;
+
+        if (level_timer < 0)
+        {
+            level_timer = 0;
+            KillMe();
+        }
+
+        TimerUI.text = string.Format("{0}", (int)level_timer);
     }
 
     void InputMove()
     {
         if (!move && !Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D) && Input.GetKey(KeyCode.W) ||
-            !move && !Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow) && Input.GetKey(KeyCode.UpArrow))
+            !move && !Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow) &&
+            Input.GetKey(KeyCode.UpArrow))
         {
             if (!stuck)
             {
@@ -79,7 +101,9 @@ public class Player : MonoBehaviour
                 move = true;
                 tarDir = Camera.main.transform.forward;
                 rollDir = Camera.main.transform.forward;
-                endpoint = new Vector3(tarDir.x > 0.5f ? 1 : tarDir.x < -0.5f ? -1 : 0, 0, tarDir.z > 0.5f ? 1 : tarDir.z < -0.5f ? -1 : 0) + transform.position; //<-------- LOLZ ^o^
+                endpoint = new Vector3(tarDir.x > 0.5f ? 1 : tarDir.x < -0.5f ? -1 : 0, 0,
+                               tarDir.z > 0.5f ? 1 : tarDir.z < -0.5f ? -1 : 0) +
+                           transform.position; //<-------- LOLZ ^o^
             }
         }
     }
@@ -107,7 +131,7 @@ public class Player : MonoBehaviour
             move = false;
             transform.Translate(new Vector3(0, -5, 0) * Time.deltaTime);
             pressed = true;
-            KillMe();
+            FellOff();
         }
         else
         {
@@ -160,7 +184,8 @@ public class Player : MonoBehaviour
         }
     }
 
-    void KillMe()
+
+    void FellOff()
     {
         timer += Time.deltaTime;
 
@@ -170,24 +195,28 @@ public class Player : MonoBehaviour
             //transform.position = starPos;
             //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             timer = 0;
+            KillMe();
+        }
+    }
 
-            if (!gm.getInEditor)
-            {
-                RetryUI.SetActive(true);
-                levelFinished = true;
+    void KillMe()
+    {
+        if (!gm.getInEditor)
+        {
+            RetryUI.SetActive(true);
+            levelFinished = true;
 
-                GameObject soundObj = new GameObject("DeathSound");
-                soundObj.AddComponent<AudioSource>();
-                soundObj.GetComponent<AudioSource>().playOnAwake = true;
-                soundObj.GetComponent<AudioSource>().spread = 360f;
-                soundObj.GetComponent<AudioSource>().clip = snd_death;
-                soundObj.GetComponent<AudioSource>().Play();
-                Destroy(soundObj, 3f);
-            }
-            else
-            {
-                transform.position = starPos;
-            }
+            GameObject soundObj = new GameObject("DeathSound");
+            soundObj.AddComponent<AudioSource>();
+            soundObj.GetComponent<AudioSource>().playOnAwake = true;
+            soundObj.GetComponent<AudioSource>().spread = 360f;
+            soundObj.GetComponent<AudioSource>().clip = snd_death;
+            soundObj.GetComponent<AudioSource>().Play();
+            Destroy(soundObj, 3f);
+        }
+        else
+        {
+            transform.position = starPos;
         }
     }
 }

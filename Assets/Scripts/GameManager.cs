@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine.SceneManagement;
 
@@ -11,6 +12,8 @@ public class GameManager : MonoBehaviour
     public static EditState editState;
     public GameObject PauseUI;
     private bool InEditor;
+
+    public List<Vector3> BlockList;
 
     public static string GameFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Kula Roll Away Unity");
 
@@ -27,6 +30,9 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
+
+        BlockList = new List<Vector3>();
+
         if (!Playmode)
         {
             editState = EditState.Edit;

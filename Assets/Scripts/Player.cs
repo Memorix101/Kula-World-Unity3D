@@ -2,6 +2,8 @@
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Timers;
 
 public class Player : MonoBehaviour
@@ -42,6 +44,7 @@ public class Player : MonoBehaviour
     private float level_timer;
 
     private GameManager gm;
+    List<Vector3> BlockList;
 
     // Use this for initialization
     void Start()
@@ -53,6 +56,9 @@ public class Player : MonoBehaviour
         FinishUI.SetActive(false);
 
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+
+        BlockList = new List<Vector3>();
+        BlockList = gm.BlockList.ToList();
 
         uiCamera = transform.GetChild(5).GetComponent<Camera>();
 
@@ -140,8 +146,6 @@ public class Player : MonoBehaviour
         {
             if (!stuck)
             {
-                pressed = true;
-                move = true;
                 tarDir = Camera.main.transform.forward;
                 rollDir = Camera.main.transform.forward;
                 endpoint = new Vector3(
@@ -149,6 +153,21 @@ public class Player : MonoBehaviour
                                0f, 
                                tarDir.z > 0.5f ? 1f : tarDir.z < -0.5f ? -1f : 0f
                                ) + transform.position; //<-------- LOLZ ^o^
+
+                // check if next move is possible
+                for (int i = 0; i < BlockList.Count; i++)
+                {
+                    var t = transform.position;
+                    var n = endpoint;
+                    if (BlockList[i] == new Vector3((int)n.x, (int)n.y - 1, (int)n.z)) //new Vector3(t.x + 1, t.y - 1, t.z)
+                    {
+                        pressed = true;
+                        move = true;
+                        Debug.Log("MATCH");
+                    }
+                }
+
+                Debug.Log("endpoint: " + new Vector3(endpoint.x, (int)endpoint.y - 1, endpoint.z));
             }
         }
 
@@ -241,7 +260,7 @@ public class Player : MonoBehaviour
         {
             stuck = true;
         }
-
+        
         if (Physics.Raycast(transform.position, uiCamera.transform.forward, out hit, 3f))
         {
             Debug.DrawRay(transform.position, uiCamera.transform.forward, Color.red);

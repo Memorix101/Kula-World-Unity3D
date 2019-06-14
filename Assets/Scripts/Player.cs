@@ -163,11 +163,11 @@ public class Player : MonoBehaviour
                     {
                         pressed = true;
                         move = true;
-                        Debug.Log("MATCH");
+                       //Debug.Log("MATCH");
                     }
                 }
 
-                Debug.Log("endpoint: " + new Vector3(endpoint.x, (int)endpoint.y - 1, endpoint.z));
+                //Debug.Log("endpoint: " + new Vector3(endpoint.x, (int)endpoint.y - 1, endpoint.z));
             }
         }
 

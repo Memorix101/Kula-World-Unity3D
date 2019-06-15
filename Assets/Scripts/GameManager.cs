@@ -21,6 +21,11 @@ public class GameManager : MonoBehaviour
         Play
     }
 
+    public EditState getEditState
+    {
+        get { return editState; }
+    }
+
     public bool getInEditor
     {
         get { return InEditor; }

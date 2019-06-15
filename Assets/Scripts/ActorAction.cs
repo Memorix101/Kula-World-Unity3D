@@ -5,6 +5,8 @@ public class ActorAction : MonoBehaviour {
 
     public AudioClip Snd;
     public AAction aaction;
+    private bool collected = false;
+    private GameManager gm;
 
     public enum AAction
     {
@@ -14,20 +16,27 @@ public class ActorAction : MonoBehaviour {
     };
 
 	// Use this for initialization
-	void Start () {
-	
-	}
+	void Start ()
+    {
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+    }
 	
 	// Update is called once per frame
-	void Update () {
-	
-	}
+	void Update ()
+    {
+        if (gm.getEditState == GameManager.EditState.Edit)
+        {
+            collected = false;
+        }
+
+        transform.GetChild(0).gameObject.SetActive(!collected);
+    }
 
     void OnTriggerEnter(Collider c)
     {
         if(aaction == AAction.Coin)
         {
-            if (c.gameObject.tag.Equals("Player"))
+            if (c.gameObject.tag.Equals("Player") && !collected)
             {
                 GameObject soundObj = new GameObject("CoinSound");
                 soundObj.AddComponent<AudioSource>();
@@ -38,13 +47,14 @@ public class ActorAction : MonoBehaviour {
                 Destroy(soundObj, 3f);
 
                 c.gameObject.GetComponent<Player>().AddCoins();
-                Destroy(gameObject);
+                //Destroy(gameObject);
+                collected = true;
             }
         }
 
         if (aaction == AAction.Key)
         {
-            if (c.gameObject.tag.Equals("Player"))
+            if (c.gameObject.tag.Equals("Player") && !collected)
             {
                 GameObject soundObj = new GameObject("KeySound");
                 soundObj.AddComponent<AudioSource>();
@@ -55,7 +65,7 @@ public class ActorAction : MonoBehaviour {
                 Destroy(soundObj, 3f);
 
                 c.gameObject.GetComponent<Player>().AddKey();
-                Destroy(gameObject);
+                collected = true; //Destroy(gameObject);
             }
         }
 

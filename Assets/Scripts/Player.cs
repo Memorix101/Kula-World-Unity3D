@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections;
@@ -14,6 +15,7 @@ public class Player : MonoBehaviour
     Vector3 rollDir;
     bool stuck;
     bool jump;
+    bool jumped;
     float timer = 0f;
     bool pressed = false;
     Vector3 endpoint;
@@ -50,6 +52,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         levelFinished = false;
+        jumped = false;
         starPos = transform.position;
 
         RetryUI.SetActive(false);
@@ -177,6 +180,7 @@ public class Player : MonoBehaviour
             {
                 pressed = true;
                 move = true;
+                jumped = true;
                 tarDir = Camera.main.transform.forward;
                 rollDir = Camera.main.transform.forward;
                 endpoint = new Vector3(
@@ -184,6 +188,8 @@ public class Player : MonoBehaviour
                                Mathf.PingPong(Time.time, 1f),
                                tarDir.z > 0.5f ? 2f : tarDir.z < -0.5f ? -2f : 0f
                            ) + transform.position; //<-------- LOLZ ^o^
+
+                //Debug.Log("jump endpoint: " + new Vector3(endpoint.x, (int)endpoint.y, endpoint.z));
 
                 GameObject soundObj = new GameObject("JumpSound");
                 soundObj.AddComponent<AudioSource>();
@@ -297,6 +303,14 @@ public class Player : MonoBehaviour
             pressed = false;
             rollDir = Vector3.zero;
             //Debug.Log("Reached");
+
+            if (jumped)
+            {
+                //transform.position = new Vector3(endpoint.x, endpoint.y, endpoint.z);
+                transform.position = new Vector3(transform.position.x, (int)transform.position.y, transform.position.z);
+                jumped = false;
+                //Debug.Log("Jumped");
+            }
         }
     }
 

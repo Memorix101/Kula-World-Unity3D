@@ -85,6 +85,6 @@ public class LoadLevelFile : MonoBehaviour
             }
         }
 
-        Debug.Log("loaded");
+        Debug.Log("Level Loaded");
     }
 }

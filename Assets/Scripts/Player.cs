@@ -48,6 +48,8 @@ public class Player : MonoBehaviour
     private GameManager gm;
     public List<Vector3> BlockList;
 
+    private Animator anim;
+
     // Use this for initialization
     void Start()
     {
@@ -59,6 +61,7 @@ public class Player : MonoBehaviour
         FinishUI.SetActive(false);
 
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+        anim = GetComponent<Animator>();
 
         BlockList = new List<Vector3>();
         //BlockList = gm.BlockList.ToList();
@@ -192,7 +195,7 @@ public class Player : MonoBehaviour
 
         if (!move && Input.GetKeyDown(KeyCode.Space))
         {
-            if (!jump)
+            if (!jump && !jumped)
             {
                 pressed = true;
                 move = true;
@@ -201,9 +204,12 @@ public class Player : MonoBehaviour
                 rollDir = Camera.main.transform.forward;
                 endpoint = new Vector3(
                                tarDir.x > 0.5f ? 2f : tarDir.x < -0.5f ? -2f : 0f,
-                               Mathf.PingPong(Time.time, 1f),
+                               0,
                                tarDir.z > 0.5f ? 2f : tarDir.z < -0.5f ? -2f : 0f
                            ) + transform.position; //<-------- LOLZ ^o^
+
+
+                anim.Play("Jump");
 
                 //Debug.Log("jump endpoint: " + new Vector3(endpoint.x, (int)endpoint.y, endpoint.z));
 
@@ -323,7 +329,7 @@ public class Player : MonoBehaviour
             if (jumped)
             {
                 //transform.position = new Vector3(endpoint.x, endpoint.y, endpoint.z);
-                transform.position = new Vector3(transform.position.x, (int)transform.position.y, transform.position.z);
+                //transform.position = new Vector3(transform.position.x, (int)transform.position.y, transform.position.z);
                 jumped = false;
                 //Debug.Log("Jumped");
             }
@@ -333,6 +339,8 @@ public class Player : MonoBehaviour
     void FellOff()
     {
         timer += Time.deltaTime;
+
+        jumped = true;
 
         if (timer > 3)
         {

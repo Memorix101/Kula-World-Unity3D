@@ -110,6 +110,7 @@ public class SceneCamera : MonoBehaviour {
 
             if (time >= 15f)
             {
+                transform.position = new Vector3(5, 10, -15);
                 RndRot();
                 time = 0;
             }
@@ -123,8 +124,7 @@ public class SceneCamera : MonoBehaviour {
     {
         float angle = transform.rotation.eulerAngles.y;
 
-        if (Mathf.Abs(Mathf.Abs(angle) - Mathf.Abs(tarY)) < 5)
-        //  if(angle.Equals(tarY))
+        if (Mathf.Abs(Mathf.Abs(angle) - Mathf.Abs(tarY)) < 5) //  if(angle.Equals(tarY))
         {
             camTurn = false;
             axis =  Vector3.zero;
@@ -166,6 +166,5 @@ public class SceneCamera : MonoBehaviour {
         float x_input = Random.Range(1, 90);
         float y_input = Random.Range(1, 90);
         axis = new Vector3(x_input, y_input, 0);
-        transform.position = new Vector3(5, 10, -15);
     }
 }

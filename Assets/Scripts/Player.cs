@@ -16,6 +16,7 @@ public class Player : MonoBehaviour
     bool stuck;
     bool jump;
     bool jumped;
+    private bool reached_endpoint;
     float timer = 0f;
     bool pressed = false;
     Vector3 endpoint;
@@ -54,6 +55,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         levelFinished = false;
+        reached_endpoint = false;
         jumped = false;
         starPos = transform.position;
         timer = 0;
@@ -240,9 +242,8 @@ public class Player : MonoBehaviour
 
     public void LevelFinished(Transform obj)
     {
-        if (!gm.getInEditor && keys == keys_found)
+        if (!gm.getInEditor && keys == keys_found && reached_endpoint && !levelFinished)
         {
-
             GameObject soundObj = new GameObject("FinishSound");
             soundObj.AddComponent<AudioSource>();
             soundObj.GetComponent<AudioSource>().playOnAwake = true;
@@ -326,6 +327,7 @@ public class Player : MonoBehaviour
             move = false;
             pressed = false;
             rollDir = Vector3.zero;
+            reached_endpoint = true;
             //Debug.Log("Reached");
 
             if (jumped)
@@ -335,6 +337,10 @@ public class Player : MonoBehaviour
                 jumped = false;
                 //Debug.Log("Jumped");
             }
+        }
+        else
+        {
+            reached_endpoint = false;
         }
     }
 

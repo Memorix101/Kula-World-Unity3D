@@ -32,7 +32,7 @@ public class ActorAction : MonoBehaviour {
         transform.GetChild(0).gameObject.SetActive(!collected);
     }
 
-    void OnTriggerEnter(Collider c)
+    void OnTriggerStay(Collider c)
     {
         if(ActorType == AAction.Coin)
         {

@@ -4,7 +4,7 @@ using System.Collections;
 public class ActorAction : MonoBehaviour {
 
     public AudioClip Snd;
-    public AAction aaction;
+    public AAction ActorType;
     private bool collected = false;
     private GameManager gm;
 
@@ -34,7 +34,7 @@ public class ActorAction : MonoBehaviour {
 
     void OnTriggerEnter(Collider c)
     {
-        if(aaction == AAction.Coin)
+        if(ActorType == AAction.Coin)
         {
             if (c.gameObject.tag.Equals("Player") && !collected)
             {
@@ -47,12 +47,11 @@ public class ActorAction : MonoBehaviour {
                 Destroy(soundObj, 3f);
 
                 c.gameObject.GetComponent<Player>().AddCoins();
-                //Destroy(gameObject);
-                collected = true;
+                collected = true; //Destroy(gameObject);
             }
         }
 
-        if (aaction == AAction.Key)
+        if (ActorType == AAction.Key)
         {
             if (c.gameObject.tag.Equals("Player") && !collected)
             {
@@ -69,7 +68,7 @@ public class ActorAction : MonoBehaviour {
             }
         }
 
-        if (aaction == AAction.Finish)
+        if (ActorType == AAction.Finish)
         {
             if (c.gameObject.tag.Equals("Player"))
             {

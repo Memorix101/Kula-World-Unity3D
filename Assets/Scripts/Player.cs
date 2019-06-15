@@ -56,6 +56,7 @@ public class Player : MonoBehaviour
         levelFinished = false;
         jumped = false;
         starPos = transform.position;
+        timer = 0;
 
         RetryUI.SetActive(false);
         FinishUI.SetActive(false);
@@ -140,7 +141,8 @@ public class Player : MonoBehaviour
 
     void Timer()
     {
-        level_timer -= Time.deltaTime;
+        if(!levelFinished)
+            level_timer -= Time.deltaTime;
 
         if (level_timer > 10)
         {
@@ -338,7 +340,8 @@ public class Player : MonoBehaviour
 
     void FellOff()
     {
-        timer += Time.deltaTime;
+        if(timer >= 0)
+            timer += Time.deltaTime;
 
         jumped = true;
 
@@ -347,7 +350,7 @@ public class Player : MonoBehaviour
             //Destroy(gameObject);
             //transform.position = starPos;
             //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-            timer = 0;
+            timer = -1;
             KillMe();
         }
     }
@@ -370,6 +373,7 @@ public class Player : MonoBehaviour
         else
         {
             transform.position = starPos;
+            jumped = false;
         }
     }
 }

@@ -22,6 +22,8 @@ public class SceneCamera : MonoBehaviour {
     private float angle = 5f;
     private float time;
 
+    private GameObject stage;
+
     public enum CamPos
     {
         fwd,
@@ -49,7 +51,10 @@ public class SceneCamera : MonoBehaviour {
 		{
 			EditCam();
         }
-	}
+
+        if(!stage)
+            stage = GameObject.Find("Stage");
+    }
 
 	void PlayCam()
 	{
@@ -108,7 +113,9 @@ public class SceneCamera : MonoBehaviour {
                 RndRot();
                 time = 0;
             }
-            transform.RotateAround(ballPlayer.transform.position, axis, angle * Time.deltaTime);
+
+            transform.RotateAround(stage.transform.position, axis, angle * Time.deltaTime);
+            transform.LookAt(stage.transform);
         }
 	}
 
@@ -159,5 +166,6 @@ public class SceneCamera : MonoBehaviour {
         float x_input = Random.Range(1, 90);
         float y_input = Random.Range(1, 90);
         axis = new Vector3(x_input, y_input, 0);
+        transform.position = new Vector3(5, 10, -15);
     }
 }

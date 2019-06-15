@@ -13,8 +13,6 @@ public class GameManager : MonoBehaviour
     public GameObject PauseUI;
     private bool InEditor;
 
-    public List<Vector3> BlockList;
-
     public static string GameFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Kula Roll Away Unity");
 
     public enum EditState
@@ -30,9 +28,6 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-
-        BlockList = new List<Vector3>();
-
         if (!Playmode)
         {
             editState = EditState.Edit;

@@ -98,7 +98,7 @@ public class EditorManager : MonoBehaviour
             fileStream.Read(bytes, 0, bytes.Length);
             data = Encoding.UTF8.GetString(bytes).Split('\n');
 
-            gameManager.GetComponent<GameManager>().BlockList.Clear();
+            //gameManager.GetComponent<GameManager>().BlockList.Clear();
 
             if (!data[0].Contains("mlvl"))
             {
@@ -117,7 +117,7 @@ public class EditorManager : MonoBehaviour
                 {
                     GameObject go = Instantiate(Cube, new Vector3(float.Parse(cords[1]), float.Parse(cords[2]), float.Parse(cords[3])), Quaternion.identity);
                     go.transform.parent = StageGameObject.transform;
-                    gameManager.GetComponent<GameManager>().BlockList.Add(new Vector3(float.Parse(cords[1]), float.Parse(cords[2]), float.Parse(cords[3])));
+                    //gameManager.GetComponent<GameManager>().BlockList.Add(new Vector3(float.Parse(cords[1]), float.Parse(cords[2]), float.Parse(cords[3])));
                 }
                 else if (cords[0].Contains("Coin"))
                 {

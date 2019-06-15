@@ -46,7 +46,7 @@ public class Player : MonoBehaviour
     private float level_timer;
 
     private GameManager gm;
-    List<Vector3> BlockList;
+    public List<Vector3> BlockList;
 
     // Use this for initialization
     void Start()
@@ -61,13 +61,29 @@ public class Player : MonoBehaviour
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
 
         BlockList = new List<Vector3>();
-        BlockList = gm.BlockList.ToList();
+        //BlockList = gm.BlockList.ToList();
 
         uiCamera = transform.GetChild(5).GetComponent<Camera>();
 
         level_timer = 90 + 1; // 90 seconds + 1s overtime 
 
         FindKeys();
+
+        if (BlockList.Count == 0)
+        {
+            GameObject stage = GameObject.Find("Stage");
+            Transform[] t = new Transform[stage.transform.childCount];
+
+            for (int i = 0; i < stage.transform.childCount; i++)
+            {
+                t[i] = stage.transform.GetChild(i);
+            }
+
+            foreach (var g in t)
+            {
+                BlockList.Add(g.transform.position);
+            }
+        }
     }
 
     // Update is called once per frame

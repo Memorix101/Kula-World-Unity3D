@@ -57,7 +57,7 @@ public class LoadLevelFile : MonoBehaviour
                 GameObject GO;
                 GO = Instantiate(Cube, new Vector3(float.Parse(cords[1]), float.Parse(cords[2]), float.Parse(cords[3])), Quaternion.identity);
                 GO.transform.parent = levelGO.transform;
-                GetComponent<GameManager>().BlockList.Add(new Vector3(float.Parse(cords[1]), float.Parse(cords[2]), float.Parse(cords[3])));
+                //GetComponent<GameManager>().BlockList.Add(new Vector3(float.Parse(cords[1]), float.Parse(cords[2]), float.Parse(cords[3])));
             }
             else if (cords[0].Contains("Coin"))
             {

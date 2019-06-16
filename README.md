@@ -1,4 +1,4 @@
 # Kula-World-Unity3D
 A remake of [Kula World / Roll Away](https://www.giantbomb.com/roll-away/3030-27176/) in Unity with in-game editor
 
-<img src="https://imgur.com/DhHcRTy.gif" width="720"><br/>
+<img src="https://imgur.com/8cihXib.gif" width="720"><br/>

@@ -37,6 +37,7 @@ public class Player : MonoBehaviour
 
     public AudioClip snd_death;
     public AudioClip snd_jump;
+    public AudioClip snd_bounce;
 
     public static bool StageClear;
     bool levelFinished;
@@ -143,7 +144,7 @@ public class Player : MonoBehaviour
 
     void Timer()
     {
-        if(!levelFinished)
+        if (!levelFinished)
             level_timer -= Time.deltaTime;
 
         if (level_timer > 10)
@@ -167,16 +168,16 @@ public class Player : MonoBehaviour
 
     void InputMove()
     {
-        if (!move && !Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D) && Input.GetKey(KeyCode.W) ||
-            !move && !Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow) && Input.GetKey(KeyCode.UpArrow))
+        if (!move && !Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.Space) && Input.GetKey(KeyCode.W) ||
+            !move && !Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.Space) && Input.GetKey(KeyCode.UpArrow))
         {
             if (!stuck)
             {
                 tarDir = Camera.main.transform.forward;
                 rollDir = Camera.main.transform.forward;
                 endpoint = new Vector3(
-                               tarDir.x > 0.5f ? 1f : tarDir.x < -0.5f ? -1f : 0f, 
-                               0f, 
+                               tarDir.x > 0.5f ? 1f : tarDir.x < -0.5f ? -1f : 0f,
+                               0f,
                                tarDir.z > 0.5f ? 1f : tarDir.z < -0.5f ? -1f : 0f
                                ) + transform.position; //<-------- LOLZ ^o^
 
@@ -189,7 +190,7 @@ public class Player : MonoBehaviour
                     {
                         pressed = true;
                         move = true;
-                       //Debug.Log("MATCH");
+                        //Debug.Log("MATCH");
                     }
                 }
 
@@ -197,7 +198,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        if (!move && Input.GetKeyDown(KeyCode.Space))
+        if (!move && Input.GetKeyDown(KeyCode.Space) && Input.GetKey(KeyCode.W))
         {
             if (!jump && !jumped)
             {
@@ -212,6 +213,28 @@ public class Player : MonoBehaviour
                                tarDir.z > 0.5f ? 2f : tarDir.z < -0.5f ? -2f : 0f
                            ) + transform.position; //<-------- LOLZ ^o^
 
+
+                anim.Play("Jump");
+
+                //Debug.Log("jump endpoint: " + new Vector3(endpoint.x, (int)endpoint.y, endpoint.z));
+
+                GameObject soundObj = new GameObject("JumpSound");
+                soundObj.AddComponent<AudioSource>();
+                soundObj.GetComponent<AudioSource>().playOnAwake = true;
+                soundObj.GetComponent<AudioSource>().spread = 360f;
+                soundObj.GetComponent<AudioSource>().clip = snd_jump;
+                soundObj.GetComponent<AudioSource>().Play();
+                Destroy(soundObj, 3f);
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (!jumped)
+            {
+                //pressed = true;
+                //move = true;
+                jumped = true;
 
                 anim.Play("Jump");
 
@@ -291,7 +314,7 @@ public class Player : MonoBehaviour
         {
             stuck = true;
         }
-        
+
         if (Physics.Raycast(transform.position, uiCamera.transform.forward, out hit, 3f))
         {
             Debug.DrawRay(transform.position, uiCamera.transform.forward, Color.red);
@@ -346,7 +369,7 @@ public class Player : MonoBehaviour
 
     void FellOff()
     {
-        if(timer >= 0)
+        if (timer >= 0)
             timer += Time.deltaTime;
 
         jumped = true;
@@ -381,5 +404,16 @@ public class Player : MonoBehaviour
             transform.position = starPos;
             jumped = false;
         }
+    }
+
+    public void BounceSound()
+    {
+        GameObject soundObj = new GameObject("BounceSound");
+        soundObj.AddComponent<AudioSource>();
+        soundObj.GetComponent<AudioSource>().playOnAwake = true;
+        soundObj.GetComponent<AudioSource>().spread = 360f;
+        soundObj.GetComponent<AudioSource>().clip = snd_bounce;
+        soundObj.GetComponent<AudioSource>().Play();
+        Destroy(soundObj, 3f);
     }
 }

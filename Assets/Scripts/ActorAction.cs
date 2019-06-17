@@ -29,6 +29,11 @@ public class ActorAction : MonoBehaviour {
             collected = false;
         }
 
+        if (ActorType == AAction.Coin || ActorType == AAction.Key)
+        {
+            transform.GetChild(0).Rotate(transform.up, Space.World);
+        }
+
         transform.GetChild(0).gameObject.SetActive(!collected);
     }
 

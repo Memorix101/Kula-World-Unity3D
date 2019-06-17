@@ -88,7 +88,11 @@ public class Player : MonoBehaviour
 
             foreach (var g in t)
             {
-                BlockList.Add(g.transform.position);
+                if (g.gameObject.tag == "Block")
+                {
+                    BlockList.Add(g.transform.position);
+                }
+                
             }
         }
     }

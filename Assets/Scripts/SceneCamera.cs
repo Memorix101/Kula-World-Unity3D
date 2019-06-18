@@ -23,6 +23,9 @@ public class SceneCamera : MonoBehaviour {
     private float time;
 
     private GameObject stage;
+    private GameObject editorShape;
+
+    private bool editMode = false;
 
     public enum CamPos
     {
@@ -38,6 +41,7 @@ public class SceneCamera : MonoBehaviour {
 
         time = 14.9f; //a little trick ;) pssst
         camPos = CamPos.fwd;
+        editorShape = GameObject.Find("EditorShape");
 	}
 
 	// Update is called once per frame
@@ -45,11 +49,12 @@ public class SceneCamera : MonoBehaviour {
 
 		if(GameManager.editState == GameManager.EditState.Play)
 		{
-             PlayCam();	
+            editMode = false;
+            PlayCam();	
 		}
 		else if(GameManager.editState == GameManager.EditState.Edit)
 		{
-			EditCam();
+            EditCam();
         }
 
         if(!stage)
@@ -159,7 +164,16 @@ public class SceneCamera : MonoBehaviour {
 		{
 			transform.Translate(new Vector3(0, -1, 0) * Time.deltaTime * CamSpeed);
 		}
-	}
+
+        if (!editMode)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+            transform.position = new Vector3(0, 1, -10);
+            tarY = 0f;
+            editMode = true;
+        }
+
+    }
 
     void RndRot()
     {

@@ -14,7 +14,8 @@ public class Player : MonoBehaviour
     Vector3 tarDir;
     Vector3 rollDir;
     bool stuck;
-    bool jump;
+    [HideInInspector]
+    public bool jump;
     bool jumped;
     private bool reached_endpoint;
     float timer = 0f;
@@ -202,7 +203,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        if (!move && Input.GetKeyDown(KeyCode.Space) && Input.GetKey(KeyCode.W))
+        if (!move && Input.GetKeyDown(KeyCode.Space))
         {
             if (!jump && !jumped)
             {
@@ -232,9 +233,9 @@ public class Player : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        /*if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (!jumped)
+            if (!jump && !jumped)
             {
                 //pressed = true;
                 //move = true;
@@ -252,7 +253,7 @@ public class Player : MonoBehaviour
                 soundObj.GetComponent<AudioSource>().Play();
                 Destroy(soundObj, 3f);
             }
-        }
+        }*/
     }
 
     public void AddCoins()
@@ -281,6 +282,18 @@ public class Player : MonoBehaviour
 
             levelFinished = true;
             FinishUI.SetActive(true); //GUI
+        }
+        else if (gm.getInEditor && keys == keys_found && reached_endpoint && !levelFinished)
+        {
+            GameObject soundObj = new GameObject("FinishSound");
+            soundObj.AddComponent<AudioSource>();
+            soundObj.GetComponent<AudioSource>().playOnAwake = true;
+            soundObj.GetComponent<AudioSource>().spread = 360f;
+            soundObj.GetComponent<AudioSource>().clip = obj.GetComponent<ActorAction>().Snd;
+            soundObj.GetComponent<AudioSource>().Play();
+            Destroy(soundObj, 3f);
+
+            gm.setEditState = GameManager.EditState.Edit;
         }
     }
 

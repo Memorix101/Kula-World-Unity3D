@@ -261,6 +261,11 @@ public class Player : MonoBehaviour
         coins += 1;
     }
 
+    public void NextLevel()
+    {
+        gm.LoadNextLevel();
+    }
+
     public void AddKey()
     {
         Key_UI_Parent.transform.GetChild(keys).GetComponent<Image>().sprite = key_pickup;

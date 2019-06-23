@@ -27,6 +27,19 @@ public class LoadLevelFile : MonoBehaviour
 
     }
 
+    public void NextLevel()
+    {
+        if (levelGO.transform.childCount > 0)
+        {
+            for (int i = 0; i < levelGO.transform.childCount; i++)
+            {
+                Destroy(levelGO.transform.GetChild(i).gameObject);
+            }
+        }
+
+        // TODO get current level id and increment (original only)
+    }
+
     public void LoadLevel()
     {
         string[] data;

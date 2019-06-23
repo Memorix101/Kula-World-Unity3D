@@ -80,11 +80,11 @@ public class EditorManager : MonoBehaviour
     {
         LoadDialogUI.SetActive(false);
 
-        if (StageGameObject.transform.childCount > 0)
+        if (StageGameObject.childCount > 0)
         {
-            for (int i = 0; i < StageGameObject.transform.childCount; i++)
+            for (int i = 0; i < StageGameObject.childCount; i++)
             {
-                Destroy(StageGameObject.transform.GetChild(i).gameObject);
+                Destroy(StageGameObject.GetChild(i).gameObject);
             }
         }
 

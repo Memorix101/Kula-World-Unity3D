@@ -19,6 +19,11 @@ public class PlayerUI : MonoBehaviour {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
+    public void NextLevel()
+    {
+        transform.parent.GetComponent<Player>().NextLevel();
+    }
+
     public void BackToMainMenu()
     {
         SceneManager.LoadScene("Menu");

@@ -80,6 +80,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void LoadNextLevel()
+    {
+        GetComponent<LoadLevelFile>().NextLevel();
+    }
+
     public void SetEditMode(string mode)
     {
         if (mode.Equals("Play"))

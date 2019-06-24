@@ -9,9 +9,10 @@ public class SceneCamera : MonoBehaviour {
 
     Quaternion endpos;
     Vector3 axis;
-    float tarY = 0f;
+    [HideInInspector]
+    public float tarY = 0f;
 
-    public static CamPos camPos;
+    //public static CamPos camPos;
     private bool camTurn;
 
     float z_val;
@@ -20,27 +21,27 @@ public class SceneCamera : MonoBehaviour {
     float cur_posZ;
 
     private float angle = 5f;
-    private float time;
+    [HideInInspector]
+    bool cam_pan = false; //public float time;
 
     private GameObject stage;
     private GameObject editorShape;
 
     private bool editMode = false;
 
-    public enum CamPos
+   /* public enum CamPos
     {
         fwd,
         back,
         left,
         right
-    }
-
+    }*/
 
     // Use this for initialization
     void Start () {
 
-        time = 14.9f; //a little trick ;) pssst
-        camPos = CamPos.fwd;
+        //time = 14.9f; //a little trick ;) pssst
+        //camPos = CamPos.fwd;
         editorShape = GameObject.Find("EditorShape");
 	}
 
@@ -57,8 +58,15 @@ public class SceneCamera : MonoBehaviour {
             EditCam();
         }
 
-        if(!stage)
+        if (cam_pan && !Player.StageClear)
+        {
+            cam_pan = false;
+        }
+
+        if (!stage)
+        {
             stage = GameObject.Find("Stage");
+        }
     }
 
 	void PlayCam()
@@ -71,7 +79,6 @@ public class SceneCamera : MonoBehaviour {
 
         if (ballPlayer != null && !Player.StageClear)
         {
-
             //Debug.Log("Player Stuff: " + ballPlayer.transform.position);
 
             Turn();
@@ -109,15 +116,16 @@ public class SceneCamera : MonoBehaviour {
         }
         else if (ballPlayer != null && Player.StageClear)
         {
+            Debug.Log("HERE CAM PAN " + cam_pan);
             //Debug.Log("HERE" + time);
 
-            time += 1 * Time.deltaTime;
+            //time += 1 * Time.deltaTime;
 
-            if (time >= 15f)
+            if (!cam_pan && Player.StageClear)
             {
                 transform.position = new Vector3(5, 10, -15);
                 RndRot();
-                time = 0;
+                cam_pan = true;
             }
 
             transform.RotateAround(stage.transform.position, axis, angle * Time.deltaTime);
@@ -138,7 +146,7 @@ public class SceneCamera : MonoBehaviour {
 
     void EditCam()
 	{
-        camPos = CamPos.fwd;
+        //camPos = CamPos.fwd;
 
         if (Input.GetKey(KeyCode.W))
 		{

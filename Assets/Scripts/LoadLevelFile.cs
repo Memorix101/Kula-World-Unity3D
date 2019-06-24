@@ -15,11 +15,14 @@ public class LoadLevelFile : MonoBehaviour
     public GameObject Key;
 
     private GameObject levelGO;
+    private GameManager gm;
 
     void Start()
     {
+        gm = GetComponent<GameManager>();
         levelGO = new GameObject("Stage");
-        LoadLevel();
+        gm.levelCount = 0;
+        LoadLevel(string.Format("level{0}", gm.levelCount));
     }
 
     void Update()
@@ -37,16 +40,38 @@ public class LoadLevelFile : MonoBehaviour
             }
         }
 
-        // TODO get current level id and increment (original only)
+        Destroy(GameObject.FindGameObjectWithTag("Player").gameObject);
+
+        // get current level id and increment (original levels only)
+        if (gm.levelCount != 20)
+        {
+            gm.levelCount++;
+        }
+
+        LoadLevel(string.Format("level{0}", gm.levelCount));
     }
 
-    public void LoadLevel()
+    public void RestartLevel()
+    {
+        if (levelGO.transform.childCount > 0)
+        {
+            for (int i = 0; i < levelGO.transform.childCount; i++)
+            {
+                Destroy(levelGO.transform.GetChild(i).gameObject);
+            }
+        }
+
+        Destroy(GameObject.FindGameObjectWithTag("Player").gameObject);
+        LoadLevel(string.Format("level{0}", gm.levelCount));
+    }
+
+    public void LoadLevel(string level_name)
     {
         string[] data;
 
-        // FileStream fileStream = File.OpenRead("Assets/Resources/Maps/test.mlvl");
-        FileStream fileStream = File.OpenRead(GameManager.GameFolderPath + "/Maps/test.mlvl");
+        //FileStream fileStream = File.OpenRead("Assets/Resources/Maps/test.mlvl");
         //FileStream fileStream = File.OpenRead(GameManager.GameFolderPath + "/Maps/luna.mlvl");
+        FileStream fileStream = File.OpenRead(string.Format("{0}/Maps/{1}.mlvl", GameManager.GameFolderPath, level_name));
 
         byte[] bytes = new byte[fileStream.Length];
 

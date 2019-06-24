@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
     public GameObject PauseUI;
     private bool InEditor;
 
+    public int levelCount = 0; // current level id for campaign levels
+
     public static string GameFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Kula Roll Away Unity");
 
     public enum EditState
@@ -83,6 +85,10 @@ public class GameManager : MonoBehaviour
     public void LoadNextLevel()
     {
         GetComponent<LoadLevelFile>().NextLevel();
+    }
+    public void RestartLevel()
+    {
+        GetComponent<LoadLevelFile>().RestartLevel();
     }
 
     public void SetEditMode(string mode)

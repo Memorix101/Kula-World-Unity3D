@@ -1,0 +1,7 @@
+gmlvl
+[Cube, 0, 0, 0]
+[Cube, 1, 0, 0]
+[Cube, 2, 0, 0]
+[Key, 1, 1, 0]
+[Start, 0, 1, 0]
+[Finish, 2, 1, 0]

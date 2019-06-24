@@ -40,6 +40,8 @@ public class Player : MonoBehaviour
     public AudioClip snd_jump;
     public AudioClip snd_bounce;
 
+    public GameObject NextLevelButton;
+
     public static bool StageClear;
     bool levelFinished;
     Vector3 starPos;
@@ -123,6 +125,16 @@ public class Player : MonoBehaviour
         CoinsUI.text = coins.ToString();
 
         Timer();
+
+        if (gm.levelCount != 20)
+        {
+            NextLevelButton.SetActive(true);
+
+        }
+        else
+        {
+            NextLevelButton.SetActive(false);
+        }
 
         //Debug.LogError("stuck" + stuck.ToString());
     }
@@ -264,6 +276,11 @@ public class Player : MonoBehaviour
     public void NextLevel()
     {
         gm.LoadNextLevel();
+    }
+
+    public void RestartLevel()
+    {
+        gm.RestartLevel();
     }
 
     public void AddKey()

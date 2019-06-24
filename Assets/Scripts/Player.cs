@@ -18,7 +18,7 @@ public class Player : MonoBehaviour
     public bool jump;
     bool jumped;
     private bool reached_endpoint;
-    float timer = 0f;
+    float air_timer = 0f;
     bool pressed = false;
     Vector3 endpoint;
 
@@ -62,7 +62,7 @@ public class Player : MonoBehaviour
         reached_endpoint = false;
         jumped = false;
         starPos = transform.position;
-        timer = 0;
+        air_timer = 0;
 
         RetryUI.SetActive(false);
         FinishUI.SetActive(false);
@@ -329,10 +329,6 @@ public class Player : MonoBehaviour
             pressed = true;
             FellOff();
         }
-        else
-        {
-            timer = 0f;
-        }
     }
 
     void ColDetection()
@@ -351,6 +347,11 @@ public class Player : MonoBehaviour
         if (!Physics.Raycast(transform.position, Vector3.down, out hit, 0.5f))
         {
             stuck = true;
+        }
+        else
+        {
+            Debug.Log("FellOff Reset");
+            air_timer = 0f;
         }
 
         if (Physics.Raycast(transform.position, uiCamera.transform.forward, out hit, 3f))
@@ -407,17 +408,20 @@ public class Player : MonoBehaviour
 
     void FellOff()
     {
-        if (timer >= 0)
-            timer += Time.deltaTime;
+        if (air_timer >= 0)
+            air_timer += Time.deltaTime;
 
         jumped = true;
 
-        if (timer > 3)
+        Debug.Log("FellOff: " + air_timer);
+
+        if (air_timer > 3)
         {
             //Destroy(gameObject);
             //transform.position = starPos;
             //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-            timer = -1;
+            air_timer = -1;
+            Debug.Log("Killing Player");
             KillMe();
         }
     }

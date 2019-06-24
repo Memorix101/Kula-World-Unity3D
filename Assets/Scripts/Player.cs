@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -126,7 +126,7 @@ public class Player : MonoBehaviour
 
         Timer();
 
-        if (gm.levelCount != 20)
+        if (gm.levelCount != 19) // 20
         {
             NextLevelButton.SetActive(true);
         }

@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections;
+using System.IO;
 
 public class SplashScreen : MonoBehaviour {
 	
@@ -10,10 +11,10 @@ public class SplashScreen : MonoBehaviour {
 	public  string LevelToLoad  = "Level";
 	public GameObject logo;
 	
-	void Start(){
-		
-		logo.SetActive(false);
-
+	void Start()
+    {
+        PrepareLevels();
+        logo.SetActive(false);
 	}
 	
 	void Update(){
@@ -32,34 +33,39 @@ public class SplashScreen : MonoBehaviour {
             logo.SetActive(false);
 
     }
-	
-	void OnGUI () {
-		
-		Color textureColor = logo.GetComponent<Image>().material.color;
-		textureColor.a = 0;
 
-		if(timer >= 0.0f){
-			textureColor.a = Time.timeSinceLevelLoad * 0.7f;
-		}
-		
-		if(timer >= 2.5f){
-			textureColor.a =  2.5f -0.7f * Time.timeSinceLevelLoad;
-		}
-
-        //logo.GetComponent<Image>().material.color = textureColor;
-        logo.GetComponent<Image>().canvasRenderer.SetColor(textureColor);
-        //print("Timer: " + timer + " Alpha: " + textureColor);
-
-    }
-	
-	
-	
-	void DisplayScene(){
+    void DisplayScene(){
 
 		SceneManager.LoadScene( LevelToLoad );
-		//print ("SplashScreen Over!");
-		
+		//Debug.Log("SplashScreen Over!");
 	}
-	
 
+    void PrepareLevels()
+    {
+        if (Directory.Exists(GameManager.GameFolderPath))
+        {
+            // all good :)
+        }
+        else
+        {
+            Directory.CreateDirectory(GameManager.GameFolderPath);
+        }
+        if (Directory.Exists(GameManager.GameFolderPath + "/Maps"))
+        {
+            // all good :)
+        }
+        else
+        {
+            string[] files = Directory.GetFiles(Application.dataPath + "/Resources/Maps", "*mlvl");
+            string[] fileNames = new string[files.Length];
+
+            Directory.CreateDirectory(GameManager.GameFolderPath + "/Maps");
+
+            for (int i = 0; i < files.Length; i++)
+            {
+                fileNames[i] = Path.GetFileName(files[i]);
+                File.Copy(files[i], GameManager.GameFolderPath + "/Maps/" + fileNames[i], true);
+            }
+        }
+    }
 }

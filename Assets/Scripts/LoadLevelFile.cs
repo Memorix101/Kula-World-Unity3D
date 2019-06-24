@@ -43,7 +43,7 @@ public class LoadLevelFile : MonoBehaviour
         Destroy(GameObject.FindGameObjectWithTag("Player").gameObject);
 
         // get current level id and increment (original levels only)
-        if (gm.levelCount != 20)
+        if (gm.levelCount != 19) // 20
         {
             gm.levelCount++;
         }

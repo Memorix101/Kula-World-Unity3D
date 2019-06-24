@@ -129,7 +129,6 @@ public class Player : MonoBehaviour
         if (gm.levelCount != 20)
         {
             NextLevelButton.SetActive(true);
-
         }
         else
         {

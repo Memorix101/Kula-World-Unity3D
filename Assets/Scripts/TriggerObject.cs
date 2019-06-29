@@ -6,15 +6,12 @@ public class TriggerObject : MonoBehaviour {
 	public bool Startline;
 	public bool Finishline;
 
-
 	public GameObject Player;
 
 	private bool spawnAtStart = true;
 
 	// Use this for initialization
-	void Start () {
-
-	
+	void Start () {	
 	
 	}
 	
@@ -35,10 +32,6 @@ public class TriggerObject : MonoBehaviour {
 		{
 			//Reset values here
 			spawnAtStart = true;
-
-
-		}
-
-	
+		}	
 	}
 }

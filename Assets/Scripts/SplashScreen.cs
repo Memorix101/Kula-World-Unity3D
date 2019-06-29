@@ -7,36 +7,39 @@ using System.IO;
 public class SplashScreen : MonoBehaviour {
 	
 	private float timer;
-	private float time = 5f;
+	private float duration = 5f;
 	public  string LevelToLoad  = "Level";
 	public GameObject logo;
-	
+    float alpha = 0f;
+
 	void Start()
     {
         PrepareLevels();
-        logo.SetActive(false);
-	}
+    }
 	
 	void Update(){
 		
 		timer += Time.deltaTime;
 
-		if(timer >= time){
+		if(timer >= duration){
             DisplayScene();
 		}
 
+        if (timer < duration / 2f)
+        {
+            alpha += Time.deltaTime;
+        }
+        else if (timer > duration / 2f)
+        {
+            alpha -= Time.deltaTime;
+        }
 
-        if (timer >= 0.1f){
-			logo.SetActive(true);
-		}
-        else
-            logo.SetActive(false);
-
+        logo.GetComponent<Image>().color = new Color(1f, 1f, 1f, alpha);
     }
 
     void DisplayScene(){
 
-		SceneManager.LoadScene( LevelToLoad );
+		SceneManager.LoadScene(LevelToLoad);
 		//Debug.Log("SplashScreen Over!");
 	}
 

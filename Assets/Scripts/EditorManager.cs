@@ -141,6 +141,7 @@ public class EditorManager : MonoBehaviour
                 }
             }
 
+            fileStream.Close();
             Debug.Log("Level Loaded");
         }
         else
